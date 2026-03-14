@@ -4,6 +4,8 @@
   display: flex;
   height: var(--header-height);
   width: 100%;
+
+  --mat-button-text-label-text-size: 1.8em;
 }
 
 div {
