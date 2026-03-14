@@ -1,0 +1,13 @@
+:host {
+  background: var(--main-gradient);
+  display: block;
+  height: 100vh;
+  width: 100vw;
+}
+
+main {
+  padding: 2vh 0;
+  height: calc(100vh - var(--header-height) - var(--footer-height) - 4vh);
+  margin: auto;
+  width: 80%;
+}

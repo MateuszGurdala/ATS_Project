@@ -1,0 +1,21 @@
+:host {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: auto;
+  --mat-button-text-label-text-size: 1.6em;
+}
+
+button {
+  margin: 0 auto;
+}
+
+span {
+  font-size: 2em;
+}
+
+.material-icons {
+  font-size: 1em; !important;
+}

@@ -1,0 +1,11 @@
+<button matIconButton (click)="onYearChange('prev')">
+  <mat-icon>arrow_backward</mat-icon>
+</button>
+<button matButton (click)="onSelectedMinYear()">{{ minYear() }}</button>
+<span>|</span>
+<button matButton>{{ selectedYear() }}</button>
+<span>|</span>
+<button matButton (click)="onSelectedMaxYear()">{{ maxYear() }}</button>
+<button matIconButton (click)="onYearChange('next')">
+  <mat-icon>arrow_forward</mat-icon>
+</button>

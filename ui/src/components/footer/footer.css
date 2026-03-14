@@ -1,0 +1,7 @@
+:host {
+  background: var(--main-gradient);
+  box-shadow: var(--box-shadow);
+  display: flex;
+  height: var(--footer-height);
+  width: 100vw;
+}

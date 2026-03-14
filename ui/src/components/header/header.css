@@ -1,0 +1,31 @@
+:host {
+  background: var(--main-gradient);
+  box-shadow: var(--box-shadow);
+  display: flex;
+  height: var(--header-height);
+  width: 100%;
+}
+
+div {
+  width: 70%;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+h1 {
+  background: var(--accent-gradient);
+  font-size: 4em;
+  margin: auto 0;
+  padding: 2% 0;
+  user-select: none;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+button {
+  margin-left: auto;
+}
