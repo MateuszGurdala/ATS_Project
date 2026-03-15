@@ -1,33 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, inject, WritableSignal} from '@angular/core';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
-
-interface TreeNode {
-  name: string;
-  children?: TreeNode[];
-}
-
-const EXAMPLE_DATA: TreeNode[] = [
-  {
-    name: 'Fruit',
-    children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-  },
-  {
-    name: 'Vegetables',
-    children: [
-      {
-        name: 'Green',
-        children: [{name: 'Broccoli'}, {name: 'Brussels sprouts'}],
-      },
-      {
-        name: 'Orange',
-        children: [{name: 'Pumpkins'}, {name: 'Carrots'}],
-      },
-    ],
-  },
-];
-
+import {SearchService} from '../../services/search-service';
+import {TreeNode} from '../../types/tree-node';
 
 @Component({
   selector: 'app-area-selector',
@@ -40,7 +16,7 @@ const EXAMPLE_DATA: TreeNode[] = [
   styleUrl: './area-selector.css',
 })
 export class AreaSelector {
-  dataSource: TreeNode[] = EXAMPLE_DATA;
+  public searchService: SearchService = inject(SearchService);
 
   childrenAccessor: (node: TreeNode) => TreeNode[] = (node: TreeNode): TreeNode[] => node.children ?? [];
 

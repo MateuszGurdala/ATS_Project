@@ -1,11 +1,15 @@
 :host {
+  --button-size: 50px;
+
   width: fit-content;
   height: fit-content;
   display: flex;
   flex-direction: row;
   align-items: center;
   margin: auto;
-  --mat-button-text-label-text-size: 1.6em;
+  --mat-button-text-label-text-size: 1.8em;
+  --mat-icon-button-icon-size: calc(0.6 * var(--button-size)); /*24px*/
+  --mat-icon-button-state-layer-size: var(--button-size);  /*40px*/
 }
 
 button {

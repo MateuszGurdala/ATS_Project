@@ -1,11 +1,11 @@
-<button matIconButton (click)="onYearChange('prev')">
+<button matIconButton (click)="searchService.changeYear('prev')">
   <mat-icon>arrow_backward</mat-icon>
 </button>
-<button matButton (click)="onSelectedMinYear()">{{ minYear() }}</button>
+<button matButton (click)="searchService.setYearToMin()">{{ searchService.minYear() }}</button>
 <span>|</span>
-<button matButton>{{ selectedYear() }}</button>
+<button matButton>{{ searchService.selectedYear() }}</button>
 <span>|</span>
-<button matButton (click)="onSelectedMaxYear()">{{ maxYear() }}</button>
-<button matIconButton (click)="onYearChange('next')">
+<button matButton (click)="searchService.setYearToMax()">{{ searchService.maxYear() }}</button>
+<button matIconButton (click)="searchService.changeYear('next')">
   <mat-icon>arrow_forward</mat-icon>
 </button>
