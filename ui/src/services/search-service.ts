@@ -1,6 +1,5 @@
 import {inject, Injectable, signal, WritableSignal} from '@angular/core';
 import {TreeNode} from '../types/tree-node';
-import {DUMMY_AREAS} from '../dummy-data';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 
@@ -24,9 +23,6 @@ export class SearchService {
     this.minYear.set(this.availableYears[0]);
     this.maxYear.set(this.availableYears[this.availableYears.length - 1]);
     this.areaDataSource.next(this.availableAreas[this.selectedYear()] ?? [])
-
-    console.log(this.selectedYear());
-    console.log(this.availableAreas);
   }
 
   public setQueryParams(): void {
@@ -70,7 +66,7 @@ export class SearchService {
         break;
     }
     this.selectedYear.set(this.availableYears[selectedYearIndex]);
-    this.areaDataSource.next(DUMMY_AREAS[selectedYearIndex] ?? [])
+    this.areaDataSource.next(this.availableAreas[selectedYearIndex] ?? [])
     this.setQueryParams()
   }
 }

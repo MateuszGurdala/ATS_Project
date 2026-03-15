@@ -1,14 +1,23 @@
 import {ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot} from '@angular/router';
 import {SearchService} from '../services/search-service';
 import {inject} from '@angular/core';
-import {DUMMY_AREAS, DUMMY_YEARS} from '../dummy-data';
+import {HttpService} from '../services/http-service';
 
 export const pictureResolver: ResolveFn<boolean> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-  const searchService: SearchService = inject(SearchService);
+  void route, state;
 
-  searchService.setAvailableYears(DUMMY_YEARS);
-  searchService.setAvailableAreas(DUMMY_AREAS);
-  searchService.reset();
+  const searchService: SearchService = inject(SearchService);
+  const httpService: HttpService = inject(HttpService);
+
+  httpService.getAvailableYears().subscribe((years) => {
+    searchService.setAvailableYears(years);
+    searchService.reset();
+  });
+
+  httpService.getAreas().subscribe((areas) => {
+    searchService.setAvailableAreas(areas);
+    searchService.reset();
+  });
 
   return true;
 };

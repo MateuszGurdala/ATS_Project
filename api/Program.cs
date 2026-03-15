@@ -1,13 +1,17 @@
+using ATSAPI.Models;
+
 var builder = WebApplication.CreateBuilder(args);
+var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options => { options.AddPolicy(name: myAllowSpecificOrigins, policy => { policy.WithOrigins("http://localhost:4200"); }); });
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
@@ -15,30 +19,20 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(myAllowSpecificOrigins);
 
-var summaries = new[]
-{
-	"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.MapGet("/api/available-years", () => (List<int>) [2016, 2017, 2018, 2019, 2020, 2023, 2024, 2025])
+	.WithName("GetAvailableYears")
+	.WithOpenApi();
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/api/areas", () => new Dictionary<int, List<TreeNode>>
 	{
-		var forecast = Enumerable.Range(1, 5).Select(index =>
-				new WeatherForecast
-				(
-					DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-					Random.Shared.Next(-20, 55),
-					summaries[Random.Shared.Next(summaries.Length)]
-				))
-			.ToArray();
-		return forecast;
+		{ 2016, [
+			new TreeNode() { Name = "Kabaty", Children = [new TreeNode() { Name = "Dembego" }] },
+			new TreeNode() { Name = "Natolin", Children = [new TreeNode() { Name = "Belgradzka" }] }
+		] }
 	})
-	.WithName("GetWeatherForecast")
+	.WithName("GetAreas")
 	.WithOpenApi();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-	public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
