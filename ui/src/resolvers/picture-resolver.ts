@@ -15,7 +15,7 @@ export const pictureResolver: ResolveFn<boolean> = (route: ActivatedRouteSnapsho
 
   httpService.getAreas().subscribe((areas) => {
     searchService.setAvailableAreas(areas);
-    searchService.reset();
+    searchService.init();
     searchService.loadPictures();
   });
 

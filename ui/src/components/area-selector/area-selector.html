@@ -1,9 +1,9 @@
 <mat-tree #tree [dataSource]="searchService.areaDataSource" [childrenAccessor]="childrenAccessor">
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
     <button matIconButton disabled></button>
-    <button matButton (click)="onSelectArea(node.name)">{{ node.name }}</button>
+    <button matButton (click)="onSelectArea(node.name)" [class]="{'button-active': searchService.selectedArea() == node.name}">{{ node.name }}</button>
   </mat-tree-node>
-  <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle
+  <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding
                  [cdkTreeNodeTypeaheadLabel]="node.name">
     <button matIconButton matTreeNodeToggle
             [attr.aria-label]="'Toggle ' + node.name">
@@ -11,6 +11,6 @@
         {{ tree.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
       </mat-icon>
     </button>
-    <button matButton (click)="onSelectArea(node.name)">{{ node.name }}</button>
+    <button matButton (click)="onSelectArea(node.name)" [class]="{'button-active': searchService.selectedArea() == node.name}">{{ node.name }}</button>
   </mat-tree-node>
 </mat-tree>

@@ -12,3 +12,7 @@
 .mat-tree {
   background: transparent;
 }
+
+.button-active {
+  --mat-button-text-label-text-color: var(--accent);
+}

@@ -19,6 +19,9 @@ export class SearchService {
 
   // @ts-ignore
   public selectedYear: WritableSignal<number>;
+  // @ts-ignore
+  public selectedArea: WritableSignal<string | null>;
+
   public readonly maxYear: WritableSignal<number> = signal<number>(0);
   public readonly minYear: WritableSignal<number> = signal<number>(0);
   public readonly pictureDataSource: WritableSignal<PicturePreview[]> = signal<PicturePreview[]>([]);
@@ -26,9 +29,10 @@ export class SearchService {
 
   constructor() {
     this.selectedYear = signal<number>(+(localStorage.getItem('year') ?? '0'))
+    this.selectedArea = signal<string | null>(localStorage.getItem('area') ?? null)
   }
 
-  public reset(): void {
+  public init(): void {
     this.setYear(this.selectedYear() == 0 ? this.availableYears[0] : this.selectedYear())
     this.minYear.set(this.availableYears[0]);
     this.maxYear.set(this.availableYears[this.availableYears.length - 1]);
@@ -46,12 +50,14 @@ export class SearchService {
   public setYearToMin(): void {
     this.setYear(this.minYear());
     this.areaDataSource.next(this.availableAreas[this.selectedYear()] ?? [])
+    this.selectedArea.set(null)
     this.loadPictures()
   }
 
   public setYearToMax(): void {
     this.setYear(this.maxYear())
     this.areaDataSource.next(this.availableAreas[this.selectedYear()] ?? [])
+    this.selectedArea.set(null)
     this.loadPictures()
   }
 
@@ -72,14 +78,16 @@ export class SearchService {
     this.loadPictures()
   }
 
-  public loadPictures(areaName?: string): void {
+  public loadPictures(): void {
+    console.log(this.selectedArea());
     let params = new HttpParams().set("year", this.selectedYear());
-    params = !!areaName ? params.set("area", areaName) : params;
+    params = this.selectedArea()!! ? params.set("area", String(this.selectedArea())) : params;
 
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams: {
-        area: areaName
+        year: this.selectedYear(),
+        area: this.selectedArea(),
       },
       queryParamsHandling: 'merge'
     });
@@ -92,17 +100,13 @@ export class SearchService {
   private setYear(year: number): void {
     this.selectedYear.set(year);
     localStorage.setItem('year', String(this.selectedYear()))
-
-    this.router.navigate([], {
-      relativeTo: this.activatedRoute,
-      queryParams: {
-        year: this.selectedYear()
-      },
-      queryParamsHandling: 'merge'
-    });
   }
 
   public selectArea(areaName: string): void {
-    this.loadPictures(areaName);
+    this.selectedArea.set(this.selectedArea() == areaName ? null : areaName);
+    this.selectedArea()!!
+      ? localStorage.setItem('area', String(this.selectedArea()))
+      : localStorage.removeItem('area');
+    this.loadPictures();
   }
 }
