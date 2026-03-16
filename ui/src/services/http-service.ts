@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {TreeNode} from '../types/tree-node';
-import {Picture} from '../types/picture';
+import {PicturePreview} from '../types/picture-preview';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class HttpService {
     return this.httpClient.get<{ [p: number]: TreeNode[] }>(this.apiEndpoint + '/api/areas');
   }
 
-  public getPictures(params?: HttpParams): Observable<Picture[]> {
-    return this.httpClient.get<Picture[]>(this.apiEndpoint + '/api/pictures', {params: params});
+  public getPictures(params?: HttpParams): Observable<PicturePreview[]> {
+    return this.httpClient.get<PicturePreview[]>(this.apiEndpoint + '/api/pictures', {params: params});
   }
 }

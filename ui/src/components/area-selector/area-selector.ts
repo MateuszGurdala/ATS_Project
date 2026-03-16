@@ -1,6 +1,6 @@
-import {Component, inject, WritableSignal} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MatTreeModule} from '@angular/material/tree';
-import {MatIconButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {SearchService} from '../../services/search-service';
 import {TreeNode} from '../../types/tree-node';
@@ -11,6 +11,7 @@ import {TreeNode} from '../../types/tree-node';
     MatTreeModule,
     MatIconButton,
     MatIcon,
+    MatButton,
   ],
   templateUrl: './area-selector.html',
   styleUrl: './area-selector.css',
@@ -21,4 +22,8 @@ export class AreaSelector {
   childrenAccessor: (node: TreeNode) => TreeNode[] = (node: TreeNode): TreeNode[] => node.children ?? [];
 
   hasChild: (_: number, node: TreeNode) => boolean = (_: number, node: TreeNode): boolean => !!node.children && node.children.length > 0;
+
+  public onSelectArea(areaName: string): void {
+    this.searchService.selectArea(areaName);
+  }
 }

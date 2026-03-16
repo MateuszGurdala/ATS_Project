@@ -30,11 +30,14 @@ app.MapGet("/api/available-years", (IAppDbContext appDbContext) => appDbContext.
 	.WithName("GetAvailableYears")
 	.WithOpenApi();
 
-app.MapGet("/api/pictures", ([FromQuery(Name = "year")] int? yearValue, IAppDbContext appDbContext) =>
+app.MapGet("/api/pictures", ([FromQuery(Name = "year")] int? yearValue, [FromQuery(Name = "area")] string? areaName, IAppDbContext appDbContext) =>
 	{
 		List<int> areaIds = appDbContext.AreaYear
 			.Include(ay => ay.Year)
+			.Include(ay => ay.Area)
+			.ThenInclude(a => a.Parent)
 			.WhereIf(ay => ay.Year.Value == yearValue, yearValue != null)
+			.WhereIf(ay => ay.Area.Name == areaName || (ay.Area.Parent != null && ay.Area.Parent.Name == areaName), areaName != null)
 			.Select(ay => ay.AreaId)
 			.ToList();
 

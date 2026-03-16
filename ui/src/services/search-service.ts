@@ -2,7 +2,7 @@ import {inject, Injectable, signal, WritableSignal} from '@angular/core';
 import {TreeNode} from '../types/tree-node';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Picture} from '../types/picture';
+import {PicturePreview} from '../types/picture-preview';
 import {HttpParams} from '@angular/common/http';
 import {HttpService} from './http-service';
 
@@ -21,7 +21,7 @@ export class SearchService {
   public selectedYear: WritableSignal<number>;
   public readonly maxYear: WritableSignal<number> = signal<number>(0);
   public readonly minYear: WritableSignal<number> = signal<number>(0);
-  public readonly pictureDataSource: WritableSignal<Picture[]> = signal<Picture[]>([]);
+  public readonly pictureDataSource: WritableSignal<PicturePreview[]> = signal<PicturePreview[]>([]);
   public readonly areaDataSource: Subject<TreeNode[]> = new BehaviorSubject<TreeNode[]>([]);
 
   constructor() {
@@ -41,10 +41,6 @@ export class SearchService {
 
   public setAvailableYears(years: number[]): void {
     this.availableYears = years;
-  }
-
-  public setPictures(pictures: Picture[]): void {
-    this.pictureDataSource.set(pictures)
   }
 
   public setYearToMin(): void {
@@ -76,9 +72,20 @@ export class SearchService {
     this.loadPictures()
   }
 
-  public loadPictures(): void {
-    this.httpService.getPictures(new HttpParams().set("year", this.selectedYear())).subscribe((pictures) => {
-      this.setPictures(pictures);
+  public loadPictures(areaName?: string): void {
+    let params = new HttpParams().set("year", this.selectedYear());
+    params = !!areaName ? params.set("area", areaName) : params;
+
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        area: areaName
+      },
+      queryParamsHandling: 'merge'
+    });
+
+    this.httpService.getPictures(params).subscribe((pictures) => {
+      this.pictureDataSource.set(pictures)
     });
   }
 
@@ -93,5 +100,9 @@ export class SearchService {
       },
       queryParamsHandling: 'merge'
     });
+  }
+
+  public selectArea(areaName: string): void {
+    this.loadPictures(areaName);
   }
 }
