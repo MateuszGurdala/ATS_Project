@@ -7,7 +7,16 @@
 }
 
 img {
-  width: 96%;
+  display: block;
+  width: 98%;
   height: 96%;
   margin: auto;
+  border-radius: 1%;
+
+  transition-duration: 0.2s;
+  transition-property: box-shadow;
+}
+
+img:hover {
+  box-shadow: var(--accent) 0px 3px 6px, var(--accent) 0px 3px 6px;
 }
