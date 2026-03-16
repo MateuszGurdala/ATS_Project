@@ -10,3 +10,13 @@ services:
       - "10000:10000"
       - "10001:10001"
       - "10002:10002"
+  mssqldb:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    container_name: "mssqldb"
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "MSSQL_SA_PASSWORD=testPASS123"
+    hostname: mssqldb
+    restart: always
+    ports:
+      - "1433:1433"
