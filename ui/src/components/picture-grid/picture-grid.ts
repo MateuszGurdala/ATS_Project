@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {SearchService} from '../../services/search-service';
 
 @Component({
   selector: 'app-picture-grid',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './picture-grid.css',
 })
 export class PictureGrid {
-  public images: number[] = [1, 2, 3, 4, 5, 6];
+  public searchService: SearchService = inject(SearchService);
 }

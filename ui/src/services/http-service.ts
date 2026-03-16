@@ -1,7 +1,8 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable, tap} from 'rxjs';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
 import {TreeNode} from '../types/tree-node';
+import {Picture} from '../types/picture';
 
 @Injectable({
   providedIn: 'root',
@@ -16,5 +17,9 @@ export class HttpService {
 
   public getAreas(): Observable<{ [p: number]: TreeNode[] }> {
     return this.httpClient.get<{ [p: number]: TreeNode[] }>(this.apiEndpoint + '/api/areas');
+  }
+
+  public getPictures(params?: HttpParams): Observable<Picture[]> {
+    return this.httpClient.get<Picture[]>(this.apiEndpoint + '/api/pictures', {params: params});
   }
 }

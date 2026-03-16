@@ -1,11 +1,27 @@
-<button matIconButton (click)="searchService.changeYear('prev')">
-  <mat-icon>arrow_backward</mat-icon>
-</button>
-<button matButton (click)="searchService.setYearToMin()">{{ searchService.minYear() }}</button>
+@if (searchService.selectedYear() == searchService.minYear()) {
+  <button matIconButton disabled style="visibility: hidden">
+    <mat-icon>arrow_backward</mat-icon>
+  </button>
+  <button matButton disabled>{{ searchService.minYear() }}</button>
+} @else {
+  <button matIconButton (click)="searchService.changeYear('prev')">
+    <mat-icon>arrow_backward</mat-icon>
+  </button>
+  <button matButton (click)="searchService.setYearToMin()">{{ searchService.minYear() }}</button>
+}
+
 <span>|</span>
 <button matButton>{{ searchService.selectedYear() }}</button>
 <span>|</span>
-<button matButton (click)="searchService.setYearToMax()">{{ searchService.maxYear() }}</button>
-<button matIconButton (click)="searchService.changeYear('next')">
-  <mat-icon>arrow_forward</mat-icon>
-</button>
+
+@if (searchService.selectedYear() == searchService.maxYear()) {
+  <button matButton disabled>{{ searchService.maxYear() }}</button>
+  <button matIconButton disabled style="visibility: hidden">
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
+} @else {
+  <button matButton (click)="searchService.setYearToMax()">{{ searchService.maxYear() }}</button>
+  <button matIconButton (click)="searchService.changeYear('next')">
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
+}

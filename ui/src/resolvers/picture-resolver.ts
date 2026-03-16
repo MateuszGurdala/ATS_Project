@@ -11,12 +11,12 @@ export const pictureResolver: ResolveFn<boolean> = (route: ActivatedRouteSnapsho
 
   httpService.getAvailableYears().subscribe((years) => {
     searchService.setAvailableYears(years);
-    searchService.reset();
   });
 
   httpService.getAreas().subscribe((areas) => {
     searchService.setAvailableAreas(areas);
     searchService.reset();
+    searchService.loadPictures();
   });
 
   return true;

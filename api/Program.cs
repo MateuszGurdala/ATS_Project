@@ -1,6 +1,8 @@
 using ATSAPI.Databaase;
 using ATSAPI.Databaase.Entities;
+using ATSAPI.Extensions;
 using ATSAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +28,28 @@ app.UseCors(nameof(allowedOrigins));
 
 app.MapGet("/api/available-years", (IAppDbContext appDbContext) => appDbContext.Year.Select(year => year.Value).OrderBy(value => value))
 	.WithName("GetAvailableYears")
+	.WithOpenApi();
+
+app.MapGet("/api/pictures", ([FromQuery(Name = "year")] int? yearValue, IAppDbContext appDbContext) =>
+	{
+		List<int> areaIds = appDbContext.AreaYear
+			.Include(ay => ay.Year)
+			.WhereIf(ay => ay.Year.Value == yearValue, yearValue != null)
+			.Select(ay => ay.AreaId)
+			.ToList();
+
+		return appDbContext.Picture
+			.Include(p => p.Area)
+			.Where(p => areaIds.Contains(p.AreaId))
+			.Select(p => new PictureDTO
+			{
+				Id = p.Id,
+				Extension = p.Extension,
+				Title = p.Title,
+				Description = p.Description
+			});
+	})
+	.WithName("GetPictures")
 	.WithOpenApi();
 
 app.MapGet("/api/areas", (IAppDbContext appDbContext) =>

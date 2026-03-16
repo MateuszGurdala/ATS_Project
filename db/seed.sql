@@ -59,3 +59,29 @@ VALUES
     (18, 1),
     (19, 1),
     (20, 1);
+
+SET IDENTITY_INSERT Picture ON;
+
+INSERT INTO Picture
+    (PictureID, AreaID, Extension, Title, Description)
+VALUES
+    (1, 6, 'jpg', 'Puławska', Null),
+    (2, 7, 'jpg', 'Aleja KEN', Null),
+    (3, 8, 'jpg', 'Służby Polsce', Null),
+    (4, 9, 'jpg', 'Belgradzka', Null),
+    (5, 9, 'jpg', 'Belgradzka', Null),
+    (6, 10, 'jpeg', 'Dembego', Null),
+    (7, 11, 'jpg', 'Aleja KEN', Null),
+    (8, 12, 'jpg', 'Pileckiego', Null),
+    (9, 13, 'jpg', 'Jastrzębowskieg', Null),
+    (10, 14, 'jpg', 'Aleja KEN', Null),
+    (11, 21, 'jpg', 'Kopcińskiego', Null),
+    (12, 15, 'jpg', 'Koncertowa', Null),
+    (13, 16, 'jpg', 'Surowieckiego', Null),
+    (14, 16, 'jpg', 'Rondo Budowniczych Ursynowa', Null),
+    (15, 17, 'jpg', 'Żabińskiego', Null),
+    (16, 18, 'jpg', 'Pustuleczki', Null),
+    (17, 19, 'jpg', 'Polinezyjska', Null),
+    (18, 20, 'jpg', 'Pasaż Ursynowski', Null);
+
+SET IDENTITY_INSERT Picture OFF;

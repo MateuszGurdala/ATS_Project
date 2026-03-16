@@ -12,7 +12,6 @@ import {PictureDetails} from '../../components/picture-details/picture-details';
 })
 export class PhotoPage {
   private activatedRoute = inject(ActivatedRoute);
-
   public pictureId: number;
 
   constructor() {
