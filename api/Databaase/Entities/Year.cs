@@ -1,0 +1,10 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ATSAPI.Databaase.Entities;
+
+public class Year
+{
+	[Column("YearID")] public int Id { get; set; }
+	[Column("Value")] public int Value { get; set; }
+	public List<AreaYear> AreaYears { get; set; }
+}

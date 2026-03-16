@@ -23,12 +23,14 @@ export class SearchService {
     this.minYear.set(this.availableYears[0]);
     this.maxYear.set(this.availableYears[this.availableYears.length - 1]);
     this.areaDataSource.next(this.availableAreas[this.selectedYear()] ?? [])
+    this.setQueryParams()
   }
 
-  public setQueryParams(): void {
+  public setQueryParams(extraParams: { [key: string]: string } | void): void {
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams: {
+        ...extraParams,
         year: this.selectedYear()
       },
       queryParamsHandling: 'merge'
@@ -66,7 +68,7 @@ export class SearchService {
         break;
     }
     this.selectedYear.set(this.availableYears[selectedYearIndex]);
-    this.areaDataSource.next(this.availableAreas[selectedYearIndex] ?? [])
+    this.areaDataSource.next(this.availableAreas[this.selectedYear()] ?? [])
     this.setQueryParams()
   }
 }
