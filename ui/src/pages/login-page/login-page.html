@@ -1,0 +1,74 @@
+<div>
+  <h1>Zaloguj Się</h1>
+  <form [formGroup]="loginFrom">
+    <mat-form-field appearance="outline">
+      <mat-label>Nazwa użytkownika</mat-label>
+      <input formControlName="username" matInput placeholder="Wpisz nazwę użytkownika">
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      @if (loginFrom.controls['username'].hasError('required')) {
+        <mat-error>Pole nie może być puste</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Hasło</mat-label>
+      <input formControlName="password" matInput [type]="'password'" placeholder="Wpisz hasło">
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      @if (loginFrom.controls['password'].hasError('required')) {
+        <mat-error>Pole nie może być puste</mat-error>
+      }
+    </mat-form-field>
+  </form>
+
+  <button [disabled]="!loginFrom.valid" matFab extended class="login-btn" (click)="onLogin()">
+    <mat-icon>exit_to_app</mat-icon>
+    Dalej
+  </button>
+</div>
+<div>
+  <h1>Utwórz Konto</h1>
+  <form [formGroup]="registerForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Nazwa użytkownika</mat-label>
+      <input formControlName="username" matInput placeholder="Wpisz nazwę użytkownika">
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      @if (registerForm.controls['username'].hasError('required')) {
+        <mat-error>Pole nie może być puste</mat-error>
+      }
+      @else if (registerForm.controls['username'].hasError('duplicate')) {
+        <mat-error>Ta nazwa jest już w użyciu</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Hasło</mat-label>
+      <input formControlName="password" matInput [type]="'password'" placeholder="Wpisz hasło">
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      @if (registerForm.controls['password'].hasError('required')) {
+        <mat-error>Pole nie może być puste</mat-error>
+      }
+      @else if (registerForm.controls['password'].hasError('minlength')) {
+        <mat-error>Hasło musi mieć co najmniej 8 znaków</mat-error>
+      }
+      @else if (registerForm.controls['password'].hasError('hasNoDigit')) {
+        <mat-error>Hasło musi zawierać cyfrę</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Powtórz hasło</mat-label>
+      <input formControlName="passwordRepeat" matInput [type]="'password'" placeholder="Wpisz hasło">
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      @if (registerForm.controls['passwordRepeat'].hasError('required')) {
+        <mat-error>Pole nie może być puste</mat-error>
+      } @else if (registerForm.controls['passwordRepeat'].hasError('passwordsAreNotEqual')) {
+        <mat-error>Hasła muszą być identyczne</mat-error>
+      }
+    </mat-form-field>
+  </form>
+
+  <button [disabled]="!registerForm.valid" matFab extended class="register-btn" (click)="onRegister()">
+    <mat-icon>account_box</mat-icon>
+    Utwórz konto
+  </button>
+</div>

@@ -5,7 +5,7 @@
 
   --mat-tree-node-text-size: 1.6em;
   --mat-tree-node-min-height: 2.4em;
-  --mat-button-text-label-text-color: #444;
+  --mat-button-text-label-text-color: var(--grey);
   --mat-button-text-label-text-size: 1em;
 }
 

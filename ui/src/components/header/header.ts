@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, inject, signal,  WritableSignal} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -14,4 +15,12 @@ import {MatMenuModule} from '@angular/material/menu';
   styleUrl: './header.css',
 })
 export class Header {
+  private readonly location: Location = inject(Location);
+  public readonly showLoginButton: WritableSignal<boolean> = signal<boolean>(false);
+
+  constructor() {
+    this.location.onUrlChange((url: string) => {
+      this.showLoginButton.set(url != "/login")
+    })
+  }
 }

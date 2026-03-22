@@ -1,7 +1,14 @@
 <div>
-  <h1>Nasz Ursynów</h1>
-  <button matButton
-          aria-label="Example icon button with a vertical three dot icon"
-  >Twoje Konto
-  </button>
+  <a href="/main" class="main-text">
+    <h1>Nasz Ursynów</h1>
+  </a>
+
+  @if (showLoginButton()) {
+    <a href="/login" class="login-btn">
+      <button matButton
+              aria-label="Example icon button with a vertical three dot icon">
+        Twoje Konto
+      </button>
+    </a>
+  }
 </div>

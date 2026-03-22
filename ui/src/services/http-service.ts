@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {TreeNode} from '../types/tree-node';
 import {PicturePreview} from '../types/picture-preview';
+import {RegisterUserAccountRequest} from '../types/register-user-account-request';
 
 @Injectable({
   providedIn: 'root',
@@ -21,5 +22,9 @@ export class HttpService {
 
   public getPictures(params?: HttpParams): Observable<PicturePreview[]> {
     return this.httpClient.get<PicturePreview[]>(this.apiEndpoint + '/api/pictures', {params: params});
+  }
+
+  public postRegisterUserAccount(request: RegisterUserAccountRequest): Observable<any> {
+    return this.httpClient.post<any>(this.apiEndpoint + '/api/account/register', request);
   }
 }

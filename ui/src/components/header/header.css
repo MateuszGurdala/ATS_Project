@@ -21,13 +21,19 @@ h1 {
   background: var(--accent-gradient);
   font-size: 4em;
   margin: auto 0;
-  padding: 2% 0;
+  padding: 10% 0;
   user-select: none;
 
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-button {
+.main-text {
+  display: flex;
+  height: 100%;
+  width: fit-content;
+}
+
+.login-btn {
   margin-left: auto;
 }
