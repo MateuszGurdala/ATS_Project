@@ -1,4 +1,4 @@
-namespace ATSAPI.Models;
+namespace ATSAPI.Models.DTO;
 
 public class PictureDTO
 {

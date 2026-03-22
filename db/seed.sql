@@ -11,6 +11,25 @@ VALUES
 
 SET IDENTITY_INSERT Year OFF;
 
+SET IDENTITY_INSERT Role ON;
+
+INSERT INTO Role
+    (RoleID, Name)
+VALUES
+    (1, 'Admin'),
+    (2, 'User');
+
+SET IDENTITY_INSERT Role OFF;
+
+SET IDENTITY_INSERT UserAccount ON;
+
+INSERT INTO UserAccount
+    (UserAccountID, RoleID, Username, Password)
+VALUES
+    (1, 1, 'CommunityAdmin', 'e34f637c1f56374b09e16101a1bc6d5b8de70b19b77046cef115e9fb2bc5ad2483b35fb9f779fc68d8188619390bfae733ef4b4f4b2a9ff920b43bd96e3208d3');
+
+SET IDENTITY_INSERT UserAccount OFF;
+
 SET IDENTITY_INSERT Area ON;
 
 INSERT INTO Area

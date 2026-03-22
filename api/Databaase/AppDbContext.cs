@@ -5,10 +5,12 @@ namespace ATSAPI.Databaase;
 
 public class AppDbContext : DbContext, IAppDbContext
 {
-	public DbSet<Year> Year { get; set; }
 	public DbSet<Area> Area { get; set; }
 	public DbSet<AreaYear> AreaYear { get; set; }
 	public DbSet<Picture> Picture { get; set; }
+	public DbSet<Role> Role { get; set; }
+	public DbSet<UserAccount> UserAccount { get; set; }
+	public DbSet<Year> Year { get; set; }
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
@@ -32,5 +34,9 @@ public class AppDbContext : DbContext, IAppDbContext
 		modelBuilder.Entity<Picture>()
 			.HasOne(e => e.Area)
 			.WithMany(e => e.Pictures);
+
+		modelBuilder.Entity<UserAccount>()
+			.HasOne(e => e.Role)
+			.WithMany(e => e.UserAccounts);
 	}
 }
