@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace ATSAPI.Databaase.Entities;
+namespace ATSAPI.Database.Entities;
 
 [PrimaryKey(nameof(AreaId), nameof(YearId))]
 public class AreaYear

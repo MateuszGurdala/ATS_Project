@@ -1,5 +1,6 @@
 using ATSAPI.Databaase;
-using ATSAPI.Databaase.Entities;
+using ATSAPI.Database;
+using ATSAPI.Database.Entities;
 using ATSAPI.Extensions;
 using ATSAPI.Models;
 using ATSAPI.Models.DTO;

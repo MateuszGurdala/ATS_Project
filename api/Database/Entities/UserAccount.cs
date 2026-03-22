@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ATSAPI.Databaase.Entities;
+namespace ATSAPI.Database.Entities;
 
 public class UserAccount
 {

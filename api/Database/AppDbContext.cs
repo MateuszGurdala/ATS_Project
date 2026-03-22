@@ -1,7 +1,8 @@
-using ATSAPI.Databaase.Entities;
+using ATSAPI.Databaase;
+using ATSAPI.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ATSAPI.Databaase;
+namespace ATSAPI.Database;
 
 public class AppDbContext : DbContext, IAppDbContext
 {
