@@ -23,6 +23,7 @@ public static class ApiPostExtensions
 
 			if (userRoleId == null)
 				return Results.Problem(statusCode: StatusCodes.Status500InternalServerError);
+
 			var userAccount = new UserAccount
 			{
 				Username = request.UserName,

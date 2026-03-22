@@ -3,7 +3,8 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {TreeNode} from '../types/tree-node';
 import {PicturePreview} from '../types/picture-preview';
-import {RegisterUserAccountRequest} from '../types/register-user-account-request';
+import {RegisterUserAccountRequest} from '../types/requests/register-user-account-request';
+import {LoginRequest} from '../types/requests/login-request';
 
 @Injectable({
   providedIn: 'root',
@@ -26,5 +27,9 @@ export class HttpService {
 
   public postRegisterUserAccount(request: RegisterUserAccountRequest): Observable<any> {
     return this.httpClient.post<any>(this.apiEndpoint + '/api/account/register', request);
+  }
+
+  public postLogin(request: LoginRequest): Observable<any> {
+    return this.httpClient.post<any>(this.apiEndpoint + '/api/account/login', request);
   }
 }

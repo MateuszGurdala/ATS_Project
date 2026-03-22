@@ -4,7 +4,7 @@ import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatIcon} from '@angular/material/icon';
 import {MatInput} from '@angular/material/input';
 import {Title} from '@angular/platform-browser';
-import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {UserAccountService} from '../../services/user-account-service';
 import {ToastrService} from 'ngx-toastr';
 
@@ -46,6 +46,18 @@ export class LoginPage {
   }
 
   public onLogin(): void {
+    this.userAccountService.tryLogin(
+      this.loginFrom.controls['username'].value,
+      this.loginFrom.controls['password'].value
+    ).subscribe({
+      next: (token) => {
+        this.userAccountService.login(token);
+      },
+      error: () => {
+        this.loginFrom.controls['username'].setErrors({invalid: true});
+        this.loginFrom.controls['password'].setErrors({invalid: true});
+      }
+    })
   }
 
   public onRegister(): void {

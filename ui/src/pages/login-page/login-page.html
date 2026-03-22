@@ -7,6 +7,8 @@
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
       @if (loginFrom.controls['username'].hasError('required')) {
         <mat-error>Pole nie może być puste</mat-error>
+      }@else if (loginFrom.controls['username'].hasError('invalid')) {
+        <mat-error>Dane logowania są nieprawidłowe</mat-error>
       }
     </mat-form-field>
 
@@ -16,6 +18,8 @@
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
       @if (loginFrom.controls['password'].hasError('required')) {
         <mat-error>Pole nie może być puste</mat-error>
+      }@else if (loginFrom.controls['password'].hasError('invalid')) {
+        <mat-error>Dane logowania są nieprawidłowe</mat-error>
       }
     </mat-form-field>
   </form>

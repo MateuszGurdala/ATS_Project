@@ -79,7 +79,6 @@ export class SearchService {
   }
 
   public loadPictures(): void {
-    console.log(this.selectedArea());
     let params = new HttpParams().set("year", this.selectedYear());
     params = this.selectedArea()!! ? params.set("area", String(this.selectedArea())) : params;
 

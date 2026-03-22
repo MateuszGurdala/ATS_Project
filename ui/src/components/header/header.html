@@ -10,5 +10,15 @@
         Twoje Konto
       </button>
     </a>
+  } @else if (userAccountService.isAuthenticated.value) {
+    <button matButton class="add-pct-btn"
+            aria-label="Example icon button with a vertical three dot icon">
+      Dodaj zdjęcia
+    </button>
+    <button matButton
+            (click)="onLogOut()"
+            aria-label="Example icon button with a vertical three dot icon">
+      Wyloguj Się
+    </button>
   }
 </div>
