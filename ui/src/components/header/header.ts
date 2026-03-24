@@ -36,5 +36,6 @@ export class Header {
 
   public onLogOut(): void {
     this.userAccountService.logout()
+    this.showLoginButton.set(true)
   }
 }
