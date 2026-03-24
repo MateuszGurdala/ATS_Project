@@ -17,6 +17,20 @@ div {
   align-items: center;
 }
 
+mat-icon {
+  --icon-size: 50px;
+
+  margin-left: 2%;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  font-size: var(--icon-size);
+  cursor: pointer;
+}
+
+mat-icon:hover {
+  --mat-icon-color: var(--accent-tint)
+}
+
 h1 {
   background: var(--accent-gradient);
   font-size: 4em;
@@ -42,4 +56,3 @@ h1 {
   margin-left: auto;
   margin-right: 1%;
 }
-z

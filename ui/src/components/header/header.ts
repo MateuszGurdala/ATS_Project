@@ -4,6 +4,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {Location} from '@angular/common';
 import {UserAccountService} from '../../services/user-account-service';
+import {ThemeService} from '../../services/theme-service';
 
 @Component({
   selector: 'app-header',
@@ -19,6 +20,7 @@ export class Header {
   private readonly location: Location = inject(Location);
 
   public readonly userAccountService: UserAccountService = inject(UserAccountService);
+  public readonly themeService: ThemeService = inject(ThemeService);
   public readonly showLoginButton: WritableSignal<boolean> = signal<boolean>(false);
   public readonly showAddPictureButton: WritableSignal<boolean> = signal<boolean>(false);
 
@@ -37,5 +39,9 @@ export class Header {
   public onLogOut(): void {
     this.userAccountService.logout()
     this.showLoginButton.set(true)
+  }
+
+  public onChangeTheme(): void {
+    this.themeService.switchTheme()
   }
 }

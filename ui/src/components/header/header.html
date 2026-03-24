@@ -2,6 +2,17 @@
   <a href="/main" class="main-text">
     <h1>Nasz Ursynów</h1>
   </a>
+  @switch (themeService.theme()) {
+    @case ('default') {
+      <mat-icon (click)="onChangeTheme()">brightness_7</mat-icon>
+    }
+    @case ('dark') {
+      <mat-icon (click)="onChangeTheme()">dark_mode</mat-icon>
+    }
+    @case ('contrast') {
+      <mat-icon (click)="onChangeTheme()">contrast</mat-icon>
+    }
+  }
 
   @if (showLoginButton()) {
     <a href="/login" class="login-btn">
