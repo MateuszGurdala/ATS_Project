@@ -1,0 +1,84 @@
+<div class="upload-details-div">
+  <form [formGroup]="uploadForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Tytuł</mat-label>
+      <input formControlName="title" matInput placeholder="Wpisz tytuł">
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      @if (uploadForm.controls['title'].hasError('required')) {
+        <mat-error>Pole nie może być puste</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Rok</mat-label>
+      <input type="number"
+             placeholder="Wybierz lub wpisz rok"
+             aria-label="Rok"
+             matInput
+             formControlName="year"
+             [matAutocomplete]="yearAuto">
+      <mat-autocomplete #yearAuto="matAutocomplete">
+        @for (yearOption of uploadService.yearDataSource | async; track yearOption) {
+          <mat-option [value]="yearOption">{{ yearOption }}</mat-option>
+        }
+      </mat-autocomplete>
+      @if (uploadForm.controls['year'].hasError('required')) {
+        <mat-error>Pole nie może być puste</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="area-div">
+      <mat-form-field appearance="outline">
+        <mat-label>Obszar</mat-label>
+        <input type="text"
+               placeholder="Wybierz lub wpisz obszar"
+               aria-label="Obszar"
+               matInput
+               formControlName="parentArea"
+               [matAutocomplete]="parentAuto">
+        <mat-autocomplete #parentAuto="matAutocomplete">
+          @for (parentOption of uploadService.parentAreaDataSource | async; track parentOption) {
+            <mat-option [value]="parentOption">{{ parentOption }}</mat-option>
+          }
+        </mat-autocomplete>
+        @if (uploadForm.controls['parentArea'].hasError('required')) {
+          <mat-error>Pole nie może być puste</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Miejsce</mat-label>
+        <input type="text"
+               placeholder="Wybierz lub wpisz miejsce"
+               aria-label="Miejsce"
+               matInput
+               formControlName="area"
+               [matAutocomplete]="areaAuto">
+        <mat-autocomplete #areaAuto="matAutocomplete">
+          @for (areaOption of uploadService.areaDataSource | async; track areaOption) {
+            <mat-option [value]="areaOption">{{ areaOption }}</mat-option>
+          }
+        </mat-autocomplete>
+        @if (uploadForm.controls['area'].hasError('required')) {
+          <mat-error>Pole nie może być puste</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="lower-div">
+      <mat-form-field appearance="outline">
+        <mat-label>Opis</mat-label>
+        <input formControlName="description" matInput placeholder="Dodaj opis">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      </mat-form-field>
+
+      <button [disabled]="!uploadForm.valid" matFab extended
+              (click)="onPhotoUpload()">
+        <mat-icon>upload_file</mat-icon>
+        Zapisz
+      </button>
+    </div>
+  </form>
+</div>
+
+<img [src]="picturePreview()" alt="Photo preview">

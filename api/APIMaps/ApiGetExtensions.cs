@@ -75,4 +75,37 @@ public static class ApiGetExtensions
 		)
 		.WithName("GetAreas")
 		.WithOpenApi();
+
+	public static RouteHandlerBuilder AddGetUploadOptions(this WebApplication webApplication) =>
+		webApplication.MapGet("/api/upload-options", (IAppDbContext appDbContext) =>
+			{
+				List<int> years = appDbContext.Year
+					.OrderByDescending(y => y.Value)
+					.Select(y => y.Value)
+					.Distinct()
+					.ToList();
+
+				List<string> areas = appDbContext.Area
+					.Where(a => a.ParentId != null)
+					.OrderByDescending(a => a.Name)
+					.Select(a => a.Name)
+					.Distinct()
+					.ToList();
+
+				List<string> parents = appDbContext.Area
+					.Where(a => a.ParentId == null)
+					.OrderByDescending(a => a.Name)
+					.Select(a => a.Name)
+					.Distinct()
+					.ToList();
+
+				return new UploadOptionsResponse
+				{
+					Years = years,
+					Areas = areas,
+					ParentAreas = parents
+				};
+			})
+			.WithName("GetUploadOptions")
+			.WithOpenApi();
 }

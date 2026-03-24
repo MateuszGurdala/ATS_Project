@@ -1,5 +1,6 @@
 using ATSAPI.APIMaps;
 using ATSAPI.Database;
+using ATSAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 string allowedOrigins;
@@ -22,6 +23,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddScoped<IAppDbContext, AppDbContext>();
+builder.Services.AddScoped<IOptionsService, OptionsService>();
+builder.Services.AddSingleton<IAzureStorageService, AzureStorageService>();
 
 var app = builder.Build();
 
@@ -34,9 +37,11 @@ if (app.Environment.IsDevelopment())
 app.AddGetAvailableYears();
 app.AddGetPictures();
 app.AddGetAreas();
+app.AddGetUploadOptions();
 
 app.AddPostRegisterUserAccount();
 app.AddPostLogin();
+app.AddPostUploadPhoto();
 
 app.UseHttpsRedirection();
 app.UseCors(nameof(allowedOrigins));

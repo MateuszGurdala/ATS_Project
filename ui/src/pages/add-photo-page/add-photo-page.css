@@ -1,0 +1,16 @@
+:host {
+  height: 100%;
+  width: 100%;
+
+  --photo-preview-height: 50vh
+}
+
+.preview-grid {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+  gap: 1vh;
+}

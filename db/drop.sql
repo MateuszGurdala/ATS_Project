@@ -1,4 +1,6 @@
 DROP TABLE Picture;
+DROP TABLE UserAccount;
+DROP TABLE Role;
 DROP TABLE AreaYear;
 DROP TABLE Area;
 DROP TABLE Year;
@@ -7,3 +9,5 @@ DELETE Picture;
 DELETE AreaYear;
 DELETE Area;
 DELETE Year;
+DELETE UserAccount;
+DELETE Role;

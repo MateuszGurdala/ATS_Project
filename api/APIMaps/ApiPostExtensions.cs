@@ -1,12 +1,13 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
+using System.Text.Json;
 using ATSAPI.Const;
 using ATSAPI.Database;
 using ATSAPI.Database.Entities;
 using ATSAPI.Models.Request;
+using ATSAPI.Services;
 using ATSAPI.Validators;
+using Microsoft.AspNetCore.Mvc;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace ATSAPI.APIMaps;
@@ -62,4 +63,35 @@ public static class ApiPostExtensions
 			})
 			.WithName("Login")
 			.WithOpenApi();
+
+	public static RouteHandlerBuilder AddPostUploadPhoto(this WebApplication webApplication) => webApplication
+		.MapPost("/api/picture/upload", (
+			[FromForm] string photoDetails,
+			IFormFile file,
+			IAppDbContext appDbContext,
+			IAzureStorageService storageService,
+			IOptionsService optionsService
+		) =>
+		{
+			var details = JsonSerializer.Deserialize<PhotoDetails>(photoDetails)!;
+			var area = optionsService.GetOrAddArea(details.Area, details.ParentArea, details.Year);
+			var extension = file.FileName.Split('.').Last();
+
+			var picture = new Picture()
+			{
+				AreaId = area.Id,
+				Title = details.Title,
+				Description = details.Description,
+				Extension = extension
+			};
+
+			appDbContext.Picture.Add(picture);
+			appDbContext.SaveChanges();
+
+			storageService.GetContainerClient().UploadBlob(string.Join('.', [picture.Id, extension]), file.OpenReadStream());
+
+			return Results.Ok();
+		})
+		.DisableAntiforgery()
+		.WithName("UploadPhoto");
 }

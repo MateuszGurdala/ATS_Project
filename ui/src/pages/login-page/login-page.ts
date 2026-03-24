@@ -1,12 +1,11 @@
 import {Component, inject} from '@angular/core';
-import {MatFabButton} from '@angular/material/button';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatFabButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatInput} from '@angular/material/input';
-import {Title} from '@angular/platform-browser';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {UserAccountService} from '../../services/user-account-service';
 import {ToastrService} from 'ngx-toastr';
+import {UserAccountService} from '../../services/user-account-service';
 
 @Component({
   selector: 'app-login-page',
@@ -24,7 +23,6 @@ import {ToastrService} from 'ngx-toastr';
   styleUrl: './login-page.css',
 })
 export class LoginPage {
-  private readonly title: Title = inject(Title)
   private readonly userAccountService: UserAccountService = inject(UserAccountService)
   private readonly toastrService: ToastrService = inject(ToastrService)
 
@@ -40,10 +38,6 @@ export class LoginPage {
   }, {
     validators: [this.userAccountService.passwordsAreEqualValidator()]
   })
-
-  constructor() {
-    this.title.setTitle("Zaloguj się")
-  }
 
   public onLogin(): void {
     this.userAccountService.tryLogin(

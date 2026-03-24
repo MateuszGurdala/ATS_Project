@@ -1,0 +1,42 @@
+:host {
+
+  display: flex;
+  height: 100%;
+  width: 100%;
+
+  --add-icon-size: 100px;
+}
+
+.dropzone {
+  align-items: center;
+  background: var(--main-gradient);
+  border-radius: 24px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  margin: auto;
+  width: 70%;
+  cursor: pointer;
+  color: var(--accent);
+}
+
+.dropzone:hover {
+  --mat-icon-color: var(--accent-tint);
+  color: var(--accent-tint);
+}
+
+input {
+  display: none;
+}
+
+h1 {
+  font-size: calc(0.5 * var(--add-icon-size));
+}
+
+mat-icon {
+  margin-top: 20%;
+  font-size: var(--add-icon-size);
+  width: var(--add-icon-size);
+  height: var(--add-icon-size);
+}

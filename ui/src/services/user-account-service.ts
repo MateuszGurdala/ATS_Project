@@ -1,8 +1,8 @@
-import {inject, Injectable, signal, WritableSignal} from '@angular/core';
-import {HttpService} from './http-service';
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {HttpService} from './http-service';
 import {Router} from '@angular/router';
+import {inject, Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,15 @@ export class UserAccountService {
   public readonly isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   private token: {} | null = null;
+
+  constructor() {
+    const storageToken = localStorage.getItem("token")
+
+    if (!!storageToken) {
+      this.token = storageToken;
+      this.isAuthenticated.next(true);
+    }
+  }
 
   public registerUserAccount(username: string, password: string): Observable<any> {
     return this.httpService.postRegisterUserAccount({
@@ -31,12 +40,14 @@ export class UserAccountService {
 
   public login(token: {}): void {
     this.token = token;
+    localStorage.setItem("token", JSON.stringify(token))
     this.isAuthenticated.next(true);
     this.router.navigate(["/main"])
   }
 
   public logout(): void {
     this.token = null;
+    localStorage.removeItem("token");
     this.isAuthenticated.next(false);
   }
 

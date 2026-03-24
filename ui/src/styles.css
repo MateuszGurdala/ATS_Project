@@ -26,6 +26,7 @@
 
   --mat-button-text-label-text-color: var(--accent);
   --mat-icon-color: var(--accent);
+  --mat-autocomplete-background-color: var(--main-tint);
 
   scrollbar-color: var(--accent) transparent;
   user-select: none;

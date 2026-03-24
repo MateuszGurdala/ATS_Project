@@ -11,10 +11,12 @@
       </button>
     </a>
   } @else if (userAccountService.isAuthenticated.value) {
-    <button matButton class="add-pct-btn"
-            aria-label="Example icon button with a vertical three dot icon">
-      Dodaj zdjęcia
-    </button>
+    <a href="/upload" class="add-pct-btn">
+      <button matButton
+              aria-label="Example icon button with a vertical three dot icon">
+        Dodaj Zdjęcia
+      </button>
+    </a>
     <button matButton
             (click)="onLogOut()"
             aria-label="Example icon button with a vertical three dot icon">

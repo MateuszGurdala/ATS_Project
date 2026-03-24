@@ -20,14 +20,17 @@ export class Header {
 
   public readonly userAccountService: UserAccountService = inject(UserAccountService);
   public readonly showLoginButton: WritableSignal<boolean> = signal<boolean>(false);
+  public readonly showAddPictureButton: WritableSignal<boolean> = signal<boolean>(false);
 
   constructor() {
     this.location.onUrlChange((url: string) => {
       this.showLoginButton.set(url != "/login" && !this.userAccountService.isAuthenticated.value)
+      this.showAddPictureButton.set(url != "/upload" && this.userAccountService.isAuthenticated.value)
     })
 
     this.userAccountService.isAuthenticated.subscribe((isAuthenticated: boolean): void => {
       this.showLoginButton.set(this.location.path() != "/login" && !isAuthenticated)
+      this.showLoginButton.set(this.location.path() != "/upload" && isAuthenticated)
     })
   }
 

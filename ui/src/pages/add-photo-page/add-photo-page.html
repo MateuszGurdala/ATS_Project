@@ -1,0 +1,9 @@
+@if (!uploadService.hasUploadedPictures()) {
+  <app-dropzone (photosUploaded)="onPhotosUploaded($event)"/>
+} @else {
+  <div class="preview-grid">
+    @for (picture of uploadService.pictureDataSource | async; track picture) {
+      <app-photo-upload-preview [file]="picture"/>
+    }
+  </div>
+}
