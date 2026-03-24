@@ -1,12 +1,12 @@
 import {AsyncPipe} from '@angular/common';
-import {BehaviorSubject, Observable} from 'rxjs';
 import {Component, inject, input, InputSignal, OnInit, signal, WritableSignal} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {MatError, MatFormField} from '@angular/material/form-field';
+import {MatFabButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatInput, MatLabel} from '@angular/material/input';
-import {MatFabButton} from '@angular/material/button';
+import {MatSelect} from '@angular/material/select';
 import {UploadService} from '../../services/upload-service';
 
 @Component({
@@ -23,7 +23,8 @@ import {UploadService} from '../../services/upload-service';
     MatAutocomplete,
     MatOption,
     AsyncPipe,
-    MatFabButton
+    MatFabButton,
+    MatSelect
   ],
   templateUrl: './photo-upload-preview.html',
   styleUrl: './photo-upload-preview.css',
@@ -36,7 +37,7 @@ export class PhotoUploadPreview implements OnInit {
 
   public readonly uploadForm: FormGroup = new FormGroup({
     'title': new FormControl('', [Validators.required]),
-    'year': new FormControl(null, [Validators.required]),
+    'year': new FormControl(null, [Validators.required, Validators.min(1980), Validators.max(new Date().getFullYear())]),
     'area': new FormControl('', [Validators.required]),
     'parentArea': new FormControl('', [Validators.required]),
     'description': new FormControl('', [])

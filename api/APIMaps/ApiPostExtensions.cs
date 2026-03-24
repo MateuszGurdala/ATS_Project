@@ -74,6 +74,9 @@ public static class ApiPostExtensions
 		) =>
 		{
 			var details = JsonSerializer.Deserialize<PhotoDetails>(photoDetails)!;
+			if (!PictureDetailsValidator.ValidateDetails(details, appDbContext, out var error))
+				return error;
+
 			var area = optionsService.GetOrAddArea(details.Area, details.ParentArea, details.Year);
 			var extension = file.FileName.Split('.').Last();
 

@@ -12,9 +12,6 @@ export class UploadService {
   private readonly httpService: HttpService = inject(HttpService);
   private readonly toastrService: ToastrService = inject(ToastrService);
 
-  // @ts-ignore
-  private fileList: FileList;
-
   public readonly yearDataSource: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
   public readonly areaDataSource: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
   public readonly parentAreaDataSource: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
@@ -23,8 +20,6 @@ export class UploadService {
   public readonly hasUploadedPictures: WritableSignal<boolean> = signal(false);
 
   public setUploadPhotos(files: FileList): void {
-    this.fileList = files;
-
     for (const fileIndex in files) {
       if (fileIndex == "length") break;
       this.pictureDataSource.next([...this.pictureDataSource.getValue(), files[fileIndex]])
