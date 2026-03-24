@@ -42,6 +42,11 @@ export class UploadService {
   public uploadPhoto(file: File, details: PhotoDetails): void {
     this.httpService.postUploadPhoto({photoDetails: details, file: file}).subscribe({
       next: () => {
+        const files = this.pictureDataSource.value
+        files.splice(files.indexOf(file), 1)
+
+        this.toastrService.info("Zdjęcie zostało zapisane.")
+        this.pictureDataSource.next(files);
       },
       error: () => {
         this.toastrService.error("Nie udało się zapisać zdjęcia.", "Błąd")
