@@ -38,6 +38,7 @@ app.AddGetAvailableYears();
 app.AddGetPictures();
 app.AddGetAreas();
 app.AddGetUploadOptions();
+app.AddGetPictureDetails();
 
 app.AddPostRegisterUserAccount();
 app.AddPostLogin();

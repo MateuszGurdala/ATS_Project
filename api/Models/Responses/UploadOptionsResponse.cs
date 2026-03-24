@@ -1,4 +1,4 @@
-namespace ATSAPI.Models;
+namespace ATSAPI.Models.Responses;
 
 public record UploadOptionsResponse
 {

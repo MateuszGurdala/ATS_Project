@@ -2,4 +2,31 @@
   <button (click)="onGoBack()" matIconButton>
     <mat-icon>arrow_backward</mat-icon>
   </button>
+
+  <form [formGroup]="detailsForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Tytuł</mat-label>
+      <input [readonly]="isReadonly()" formControlName="title" matInput placeholder="Wpisz tytuł">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Obszar</mat-label>
+      <input [readonly]="isReadonly()" formControlName="parentArea" matInput placeholder="Wpisz obszar">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Miejsce</mat-label>
+      <input [readonly]="isReadonly()" formControlName="area" matInput placeholder="Wpisz obszar">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Rok</mat-label>
+      <input [readonly]="isReadonly()" formControlName="year" matInput placeholder="Wpisz obszar">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Opis</mat-label>
+      <input [readonly]="isReadonly()" formControlName="description" matInput placeholder="Dodaj opis">
+    </mat-form-field>
+  </form>
 </div>

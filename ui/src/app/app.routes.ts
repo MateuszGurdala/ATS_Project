@@ -6,6 +6,7 @@ import {Routes} from '@angular/router';
 import {pictureResolver} from '../resolvers/picture-resolver';
 import {routeGuard} from '../guards/route-guard';
 import {uploadOptionsResolver} from '../resolvers/upload-options-resolver';
+import {pictureDetailsResolver} from '../resolvers/picture-details-resolver';
 
 export const routes: Routes = [
   {
@@ -19,7 +20,10 @@ export const routes: Routes = [
   {
     path: 'picture/:id',
     component: PhotoPage,
-    title: "Zdjęcie"
+    title: "Zdjęcie",
+    resolve: {
+      details: pictureDetailsResolver
+    }
   },
   {
     path: 'upload',

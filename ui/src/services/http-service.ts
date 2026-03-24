@@ -7,6 +7,7 @@ import {RegisterUserAccountRequest} from '../types/requests/register-user-accoun
 import {LoginRequest} from '../types/requests/login-request';
 import {UploadOptions} from '../types/responses/upload-options';
 import {UploadPhotoRequest} from '../types/requests/upload-photo-request';
+import {PictureDetails} from '../types/responses/picture-details';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,10 @@ export class HttpService {
 
   public getUploadOptions(): Observable<UploadOptions> {
     return this.httpClient.get<UploadOptions>(this.apiEndpoint + '/api/upload-options');
+  }
+
+  public getPictureDetails(id: number): Observable<PictureDetails> {
+    return this.httpClient.get<PictureDetails>(this.apiEndpoint + '/api/picture/' + id);
   }
 
   public postRegisterUserAccount(request: RegisterUserAccountRequest): Observable<any> {

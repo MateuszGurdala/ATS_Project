@@ -3,6 +3,7 @@ using ATSAPI.Database.Entities;
 using ATSAPI.Extensions;
 using ATSAPI.Models;
 using ATSAPI.Models.DTO;
+using ATSAPI.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -107,5 +108,39 @@ public static class ApiGetExtensions
 				};
 			})
 			.WithName("GetUploadOptions")
+			.WithOpenApi();
+
+	public static RouteHandlerBuilder AddGetPictureDetails(this WebApplication webApplication)
+		=> webApplication.MapGet("/api/picture/{id:long}", (
+				long id,
+				IAppDbContext appDbContext) =>
+			{
+				Picture? picture = appDbContext.Picture
+					.Include(p => p.Area)
+					.ThenInclude(p => p.AreaYears)
+					.Where(p => p.Id == id)
+					.AsNoTracking()
+					.FirstOrDefault();
+
+				if (picture == null)
+					return Results.BadRequest("Picture not found.");
+
+				AreaYear areaYear = appDbContext.AreaYear
+					.Include(ay => ay.Area)
+					.ThenInclude(a => a.Parent)
+					.Include(ay => ay.Year)
+					.AsNoTracking()
+					.First(ay => ay.AreaId == picture.AreaId);
+
+				return Results.Ok(new PictureDetailsResponse
+				{
+					Title = picture.Title,
+					Area = picture.Area.Name,
+					Description = picture.Description,
+					Year = areaYear.Year.Value,
+					ParentArea = areaYear.Area.Parent!.Name
+				});
+			})
+			.WithName("GetPictureDetails")
 			.WithOpenApi();
 }
