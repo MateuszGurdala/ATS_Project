@@ -43,20 +43,24 @@ public static class ApiGetExtensions
 		.WithName("GetPictures")
 		.WithOpenApi();
 
-	public static RouteHandlerBuilder AddGetAreas(this WebApplication webApplication) => webApplication.MapGet("/api/areas", (IAppDbContext appDbContext) =>
+	public static RouteHandlerBuilder AddGetAreas(this WebApplication webApplication) => webApplication.MapGet("/api/areas", async (IAppDbContext appDbContext) =>
 			{
 				var dictionary = new Dictionary<int, List<TreeNode>>();
 
-				List<IGrouping<int, AreaYear>> areaYears = appDbContext.AreaYear
+				var areaYears = await appDbContext.AreaYear
 					.Include(ay => ay.Year)
 					.OrderBy(ay => ay.Year.Value)
 					.GroupBy(ay => ay.Year.Value)
-					.ToList();
+					.AsSplitQuery()
+					.AsNoTracking()
+					.ToListAsync();
 
-				var areas = appDbContext.Area
+				var areas = await appDbContext.Area
 					.Include(a => a.Parent)
 					.Where(a => a.ParentId != null)
-					.ToList();
+					.AsSplitQuery()
+					.AsNoTracking()
+					.ToListAsync();
 
 				foreach (var areaYearGrouping in areaYears)
 				{
@@ -79,33 +83,33 @@ public static class ApiGetExtensions
 		.WithOpenApi();
 
 	public static RouteHandlerBuilder AddGetUploadOptions(this WebApplication webApplication) =>
-		webApplication.MapGet("/api/upload-options", (IAppDbContext appDbContext) =>
+		webApplication.MapGet("/api/upload-options", async (IAppDbContext appDbContext) =>
 			{
-				List<int> years = appDbContext.Year
+				Task<List<int>> years = appDbContext.Year
 					.OrderByDescending(y => y.Value)
 					.Select(y => y.Value)
 					.Distinct()
-					.ToList();
+					.ToListAsync();
 
-				List<string> areas = appDbContext.Area
+				Task<List<string>> areas = appDbContext.Area
 					.Where(a => a.ParentId != null)
 					.OrderByDescending(a => a.Name)
 					.Select(a => a.Name)
 					.Distinct()
-					.ToList();
+					.ToListAsync();
 
-				List<string> parents = appDbContext.Area
+				Task<List<string>> parents = appDbContext.Area
 					.Where(a => a.ParentId == null)
 					.OrderByDescending(a => a.Name)
 					.Select(a => a.Name)
 					.Distinct()
-					.ToList();
+					.ToListAsync();
 
 				return new UploadOptionsResponse
 				{
-					Years = years,
-					Areas = areas,
-					ParentAreas = parents
+					Years = await years,
+					Areas = await areas,
+					ParentAreas = await parents
 				};
 			})
 			.WithName("GetUploadOptions")
