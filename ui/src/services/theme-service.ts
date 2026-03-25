@@ -44,7 +44,7 @@ export class ThemeService {
 
   private setDark(): void {
     document.documentElement.style.setProperty('--accent', '#22b8cf');
-    document.documentElement.style.setProperty('--accent-tint', '#22b8cf');
+    document.documentElement.style.setProperty('--accent-tint', '#66d9e8');
     document.documentElement.style.setProperty('--grey-shadow', '#22b8cf');
     document.documentElement.style.setProperty('--main', '#212529');
     document.documentElement.style.setProperty('--main-shade', '#0D0F10');
@@ -58,7 +58,7 @@ export class ThemeService {
 
   private setDefault(): void {
     document.documentElement.style.setProperty('--accent', '#22b8cf');
-    document.documentElement.style.setProperty('--accent-tint', '#22b8cf');
+    document.documentElement.style.setProperty('--accent-tint', '#66d9e8');
     document.documentElement.style.setProperty('--grey-shadow', '#888');
     document.documentElement.style.setProperty('--main', '#dee2e6');
     document.documentElement.style.setProperty('--main-shade', '#adb5bd');
