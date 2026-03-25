@@ -23,3 +23,7 @@ span {
 .material-icons {
   font-size: 1em; !important;
 }
+
+.middle-button {
+  color: var(--mat-tree-button-color);
+}

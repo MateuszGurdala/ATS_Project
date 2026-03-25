@@ -43,23 +43,44 @@ export class ThemeService {
   }
 
   private setDark(): void {
-    document.documentElement.style.setProperty('--main', '#212529');
-    document.documentElement.style.setProperty('--main-tint', '#212529');
-    document.documentElement.style.setProperty('--main-shade', '#0D0F10');
+    document.documentElement.style.setProperty('--accent', '#22b8cf');
+    document.documentElement.style.setProperty('--accent-tint', '#22b8cf');
     document.documentElement.style.setProperty('--grey-shadow', '#22b8cf');
+    document.documentElement.style.setProperty('--main', '#212529');
+    document.documentElement.style.setProperty('--main-shade', '#0D0F10');
+    document.documentElement.style.setProperty('--main-tint', '#212529');
+    document.documentElement.style.setProperty('--mat-form-field-outlined-input-text-color', '#22b8cf');
+    document.documentElement.style.setProperty('--mat-form-field-outlined-label-text-color', '#22b8cf');
+    document.documentElement.style.setProperty('--mat-tree-button-color', '#22b8cf');
+
     this.theme.set("dark")
   }
 
   private setDefault(): void {
-    document.documentElement.style.setProperty('--main', '#dee2e6');
-    document.documentElement.style.setProperty('--main-tint', '#f1f3f5');
-    document.documentElement.style.setProperty('--main-shade', '#adb5bd');
+    document.documentElement.style.setProperty('--accent', '#22b8cf');
+    document.documentElement.style.setProperty('--accent-tint', '#22b8cf');
     document.documentElement.style.setProperty('--grey-shadow', '#888');
+    document.documentElement.style.setProperty('--main', '#dee2e6');
+    document.documentElement.style.setProperty('--main-shade', '#adb5bd');
+    document.documentElement.style.setProperty('--main-tint', '#f1f3f5');
+    document.documentElement.style.setProperty('--mat-form-field-outlined-input-text-color', '#222');
+    document.documentElement.style.setProperty('--mat-form-field-outlined-label-text-color', '#888');
+    document.documentElement.style.setProperty('--mat-tree-button-color', '#222');
+
     this.theme.set("default")
   }
 
   private setContrast(): void {
-    this.setDark()
+    document.documentElement.style.setProperty('--accent', 'blue');
+    document.documentElement.style.setProperty('--accent-tint', 'blue');
+    document.documentElement.style.setProperty('--grey-shadow', 'blue');
+    document.documentElement.style.setProperty('--main', 'black');
+    document.documentElement.style.setProperty('--main-shade', 'black');
+    document.documentElement.style.setProperty('--main-tint', 'black');
+    document.documentElement.style.setProperty('--mat-form-field-outlined-input-text-color', 'blue');
+    document.documentElement.style.setProperty('--mat-form-field-outlined-label-text-color', 'blue');
+    document.documentElement.style.setProperty('--mat-tree-button-color', 'blue');
+
     this.theme.set("contrast")
   }
 }

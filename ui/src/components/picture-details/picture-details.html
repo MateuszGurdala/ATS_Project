@@ -26,27 +26,34 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Dodał</mat-label>
-      <input [readonly]="isReadonly()" formControlName="createdBy" matInput placeholder="Wpisz obszar">
+      <input [readonly]="true" formControlName="createdBy" matInput placeholder="Wpisz obszar">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Dnia</mat-label>
-      <input [readonly]="isReadonly()" formControlName="createdOn" matInput placeholder="Wpisz obszar">
+      <input [readonly]="true" formControlName="createdOn" matInput placeholder="Wpisz obszar">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Edytował</mat-label>
-      <input [readonly]="isReadonly()" formControlName="updatedBy" matInput placeholder="Wpisz obszar">
+      <input [readonly]="true" formControlName="updatedBy" matInput placeholder="Wpisz obszar">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Dnia</mat-label>
-      <input [readonly]="isReadonly()" formControlName="updatedOn" matInput placeholder="Wpisz obszar">
+      <input [readonly]="true" formControlName="updatedOn" matInput placeholder="Wpisz obszar">
     </mat-form-field>
 
     <mat-form-field style="grid-column: 1 / span 2; grid-row: 7 / span 2" appearance="outline">
       <mat-label>Opis</mat-label>
       <input [readonly]="isReadonly()" formControlName="description" matInput>
     </mat-form-field>
+
+    @if (userAccountService.isAuthenticated.value) {
+      <button matFab extended style="grid-column: 2" (click)="onStartEdit()">
+        <mat-icon>edit</mat-icon>
+        Edytuj
+      </button>
+    }
   </form>
 </div>

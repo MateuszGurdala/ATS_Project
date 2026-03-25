@@ -1,11 +1,12 @@
 import {Component, inject, signal, WritableSignal} from '@angular/core';
-import {MatIconButton} from '@angular/material/button';
+import {MatFabButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {Location} from '@angular/common';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatError, MatFormField} from '@angular/material/form-field';
 import {MatInput, MatLabel} from '@angular/material/input';
 import {ActivatedRoute, Data} from '@angular/router';
+import {UserAccountService} from '../../services/user-account-service';
 
 @Component({
   selector: 'app-picture-details',
@@ -16,7 +17,8 @@ import {ActivatedRoute, Data} from '@angular/router';
     MatFormField,
     MatInput,
     MatLabel,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatFabButton
   ],
   templateUrl: './picture-details.html',
   styleUrl: './picture-details.css',
@@ -24,6 +26,7 @@ import {ActivatedRoute, Data} from '@angular/router';
 export class PictureDetails {
   private readonly location: Location = inject(Location);
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  public userAccountService: UserAccountService = inject(UserAccountService)
 
   public readonly isReadonly: WritableSignal<boolean> = signal(true)
 
@@ -47,5 +50,9 @@ export class PictureDetails {
 
   public onGoBack(): void {
     this.location.back()
+  }
+
+  public onStartEdit(): void {
+    this.isReadonly.set(false);
   }
 }

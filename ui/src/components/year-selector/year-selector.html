@@ -11,7 +11,7 @@
 }
 
 <span>|</span>
-<button matButton>{{ searchService.selectedYear() }}</button>
+<button disabled="true" class="middle-button" matButton>{{ searchService.selectedYear() }}</button>
 <span>|</span>
 
 @if (searchService.selectedYear() == searchService.maxYear()) {
