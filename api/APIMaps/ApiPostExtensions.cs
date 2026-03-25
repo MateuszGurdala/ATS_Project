@@ -1,5 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text.Json;
 using ATSAPI.Const;
 using ATSAPI.Database;
@@ -8,7 +6,6 @@ using ATSAPI.Models.Request;
 using ATSAPI.Services;
 using ATSAPI.Validators;
 using Microsoft.AspNetCore.Mvc;
-using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace ATSAPI.APIMaps;
 
@@ -41,7 +38,7 @@ public static class ApiPostExtensions
 		.WithOpenApi();
 
 	public static RouteHandlerBuilder AddPostLogin(this WebApplication webApplication) =>
-		webApplication.MapPost("/api/account/login", (LoginRequest request, IAppDbContext dbContext) =>
+		webApplication.MapPost("/api/account/login", (LoginRequest request, IAppDbContext dbContext, IAuthService authService) =>
 			{
 				if (!UserAccountValidator.ValidateLoginRequest(request, dbContext, out IResult? error))
 					return error!;
@@ -51,16 +48,7 @@ public static class ApiPostExtensions
 					ua.Password == Utils.GetSHA512(request.Password)
 				);
 
-				var jwt = new JwtSecurityToken(
-					claims:
-					[
-						new Claim(JwtRegisteredClaimNames.Sub, userAccount.Username),
-						new Claim("roleid", userAccount.RoleID.ToString()),
-						new Claim("usrid", userAccount.Id.ToString())
-					],
-					expires: DateTime.UtcNow.AddMinutes(10));
-
-				return Results.Ok(jwt);
+				return Results.Ok(authService.IssueToken(userAccount));
 			})
 			.WithName("Login")
 			.WithOpenApi();

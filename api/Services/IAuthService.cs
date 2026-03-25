@@ -10,4 +10,5 @@ public interface IAuthService
 	public string RoleName { get; }
 
 	public void HandleToken(JwtPayload token);
+	public JwtSecurityToken IssueToken(UserAccount userAccount);
 }

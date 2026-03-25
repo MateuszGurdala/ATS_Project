@@ -32,4 +32,15 @@ public class AuthService(IAppDbContext appDbContext) : IAuthService
 		UserAccount = user;
 		RoleName = appDbContext.Role.First(r => r.Id == int.Parse(roleIdClaim.Value)).Name;
 	}
+
+	public JwtSecurityToken IssueToken(UserAccount userAccount)
+		=> new(
+			claims:
+			[
+				new Claim(JwtRegisteredClaimNames.Sub, userAccount.Username),
+				new Claim("roleid", userAccount.RoleID.ToString()),
+				new Claim("usrid", userAccount.Id.ToString())
+			],
+			expires: DateTime.UtcNow.AddMinutes(10)
+		);
 }
