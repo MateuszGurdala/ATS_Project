@@ -11,12 +11,21 @@ namespace ATSAPI.APIMaps;
 
 public static class ApiGetExtensions
 {
-	public static RouteHandlerBuilder AddGetAvailableYears(this WebApplication webApplication) =>
+	public static void AddGetEndpoints(this WebApplication webApplication)
+	{
+		webApplication.AddGetAvailableYears();
+		webApplication.AddGetPictures();
+		webApplication.AddGetAreas();
+		webApplication.AddGetUploadOptions();
+		webApplication.AddGetPictureDetails();
+	}
+
+	private static void AddGetAvailableYears(this WebApplication webApplication) =>
 		webApplication.MapGet("/api/available-years", (IAppDbContext appDbContext) => appDbContext.Year.Select(year => year.Value).OrderBy(value => value))
 			.WithName("GetAvailableYears")
 			.WithOpenApi();
 
-	public static RouteHandlerBuilder AddGetPictures(this WebApplication webApplication) => webApplication.MapGet("/api/pictures",
+	private static void AddGetPictures(this WebApplication webApplication) => webApplication.MapGet("/api/pictures",
 			([FromQuery(Name = "year")] int? yearValue, [FromQuery(Name = "area")] string? areaName, IAppDbContext appDbContext) =>
 			{
 				var areaIds = appDbContext.AreaYear
@@ -43,7 +52,7 @@ public static class ApiGetExtensions
 		.WithName("GetPictures")
 		.WithOpenApi();
 
-	public static RouteHandlerBuilder AddGetAreas(this WebApplication webApplication) => webApplication.MapGet("/api/areas", async (IAppDbContext appDbContext) =>
+	private static void AddGetAreas(this WebApplication webApplication) => webApplication.MapGet("/api/areas", async (IAppDbContext appDbContext) =>
 			{
 				var dictionary = new Dictionary<int, List<TreeNode>>();
 
@@ -82,7 +91,7 @@ public static class ApiGetExtensions
 		.WithName("GetAreas")
 		.WithOpenApi();
 
-	public static RouteHandlerBuilder AddGetUploadOptions(this WebApplication webApplication) =>
+	private static void AddGetUploadOptions(this WebApplication webApplication) =>
 		webApplication.MapGet("/api/upload-options", async (IAppDbContext appDbContext) =>
 			{
 				Task<List<int>> years = appDbContext.Year
@@ -115,8 +124,8 @@ public static class ApiGetExtensions
 			.WithName("GetUploadOptions")
 			.WithOpenApi();
 
-	public static RouteHandlerBuilder AddGetPictureDetails(this WebApplication webApplication)
-		=> webApplication.MapGet("/api/picture/{id:long}", (
+	private static void AddGetPictureDetails(this WebApplication webApplication) =>
+		webApplication.MapGet("/api/picture/{id:long}", (
 				long id,
 				IAppDbContext appDbContext) =>
 			{

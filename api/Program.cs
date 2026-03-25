@@ -37,15 +37,8 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
-app.AddGetAvailableYears();
-app.AddGetPictures();
-app.AddGetAreas();
-app.AddGetUploadOptions();
-app.AddGetPictureDetails();
-
-app.AddPostRegisterUserAccount();
-app.AddPostLogin();
-app.AddPostUploadPhoto();
+app.AddGetEndpoints();
+app.AddPostEndpoints();
 
 app.UseHttpsRedirection();
 app.UseCors(nameof(allowedOrigins));

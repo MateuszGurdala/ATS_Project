@@ -11,7 +11,14 @@ namespace ATSAPI.APIMaps;
 
 public static class ApiPostExtensions
 {
-	public static RouteHandlerBuilder AddPostRegisterUserAccount(this WebApplication webApplication) => webApplication
+	public static void AddPostEndpoints(this WebApplication webApplication)
+	{
+		webApplication.AddPostRegisterUserAccount();
+		webApplication.AddPostLogin();
+		webApplication.AddPostUploadPhoto();
+	}
+
+	private static RouteHandlerBuilder AddPostRegisterUserAccount(this WebApplication webApplication) => webApplication
 		.MapPost("/api/account/register", (RegisterUserAccountRequest request, IAppDbContext dbContext) =>
 		{
 			if (!UserAccountValidator.ValidateRegisterRequest(request, dbContext, out IResult? error))
@@ -37,7 +44,7 @@ public static class ApiPostExtensions
 		.WithName("RegisterAccount")
 		.WithOpenApi();
 
-	public static RouteHandlerBuilder AddPostLogin(this WebApplication webApplication) =>
+	private static RouteHandlerBuilder AddPostLogin(this WebApplication webApplication) =>
 		webApplication.MapPost("/api/account/login", (LoginRequest request, IAppDbContext dbContext, IAuthService authService) =>
 			{
 				if (!UserAccountValidator.ValidateLoginRequest(request, dbContext, out IResult? error))
@@ -53,7 +60,7 @@ public static class ApiPostExtensions
 			.WithName("Login")
 			.WithOpenApi();
 
-	public static RouteHandlerBuilder AddPostUploadPhoto(this WebApplication webApplication) => webApplication
+	private static RouteHandlerBuilder AddPostUploadPhoto(this WebApplication webApplication) => webApplication
 		.MapPost("/api/picture/upload", (
 			[FromForm] string photoDetails,
 			IFormFile file,
