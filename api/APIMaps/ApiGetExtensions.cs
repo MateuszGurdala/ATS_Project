@@ -19,18 +19,19 @@ public static class ApiGetExtensions
 	public static RouteHandlerBuilder AddGetPictures(this WebApplication webApplication) => webApplication.MapGet("/api/pictures",
 			([FromQuery(Name = "year")] int? yearValue, [FromQuery(Name = "area")] string? areaName, IAppDbContext appDbContext) =>
 			{
-				List<int> areaIds = appDbContext.AreaYear
+				var areaIds = appDbContext.AreaYear
 					.Include(ay => ay.Year)
 					.Include(ay => ay.Area)
 					.ThenInclude(a => a.Parent)
 					.WhereIf(ay => ay.Year.Value == yearValue, yearValue != null)
 					.WhereIf(ay => ay.Area.Name == areaName || (ay.Area.Parent != null && ay.Area.Parent.Name == areaName), areaName != null)
-					.Select(ay => ay.AreaId)
-					.ToList();
+					.AsSplitQuery()
+					.Select(ay => ay.AreaId);
 
 				return appDbContext.Picture
 					.Include(p => p.Area)
 					.Where(p => areaIds.Contains(p.AreaId))
+					.AsSplitQuery()
 					.Select(p => new PictureDTO
 					{
 						Id = p.Id,
