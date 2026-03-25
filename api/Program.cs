@@ -1,6 +1,8 @@
 using ATSAPI.APIMaps;
 using ATSAPI.Database;
+using ATSAPI.Extensions;
 using ATSAPI.Services;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 string allowedOrigins;
@@ -24,6 +26,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<IAppDbContext, AppDbContext>();
 builder.Services.AddScoped<IOptionsService, OptionsService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddSingleton<IAzureStorageService, AzureStorageService>();
 
 var app = builder.Build();
@@ -46,6 +49,7 @@ app.AddPostUploadPhoto();
 
 app.UseHttpsRedirection();
 app.UseCors(nameof(allowedOrigins));
+app.UseJWTAuth();
 app.UseAuthentication();
 app.UseAuthorization();
 

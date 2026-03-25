@@ -55,7 +55,8 @@ public static class ApiPostExtensions
 					claims:
 					[
 						new Claim(JwtRegisteredClaimNames.Sub, userAccount.Username),
-						new Claim("roleid", userAccount.RoleID.ToString())
+						new Claim("roleid", userAccount.RoleID.ToString()),
+						new Claim("usrid", userAccount.Id.ToString())
 					],
 					expires: DateTime.UtcNow.AddMinutes(10));
 
@@ -70,9 +71,13 @@ public static class ApiPostExtensions
 			IFormFile file,
 			IAppDbContext appDbContext,
 			IAzureStorageService storageService,
-			IOptionsService optionsService
+			IOptionsService optionsService,
+			IAuthService authService
 		) =>
 		{
+			if (!authService.IsAuthenticated)
+				return Results.Unauthorized();
+
 			var details = JsonSerializer.Deserialize<PhotoDetails>(photoDetails)!;
 			if (!PictureDetailsValidator.ValidateDetails(details, appDbContext, out var error))
 				return error;
