@@ -20,23 +20,7 @@ public class AppDbContext : DbContext, IAppDbContext
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		modelBuilder.Entity<Year>()
-			.HasMany(e => e.AreaYears)
-			.WithOne(e => e.Year);
-
-		modelBuilder.Entity<Area>()
-			.HasMany(e => e.AreaYears)
-			.WithOne(e => e.Area);
-
-		modelBuilder.Entity<Area>()
-			.HasOne(e => e.Parent);
-
-		modelBuilder.Entity<Picture>()
-			.HasOne(e => e.Area)
-			.WithMany(e => e.Pictures);
-
-		modelBuilder.Entity<UserAccount>()
-			.HasOne(e => e.Role)
-			.WithMany(e => e.UserAccounts);
+		ATSAPI.Database.Entities.Picture.OnModelCreating(modelBuilder);
+		ATSAPI.Database.Entities.Area.OnModelCreating(modelBuilder);
 	}
 }

@@ -118,6 +118,8 @@ public static class ApiGetExtensions
 				Picture? picture = appDbContext.Picture
 					.Include(p => p.Area)
 					.ThenInclude(p => p.AreaYears)
+					.Include(p => p.CreatedBy)
+					.Include(p => p.UpdatedBy)
 					.Where(p => p.Id == id)
 					.AsNoTracking()
 					.FirstOrDefault();
@@ -138,7 +140,11 @@ public static class ApiGetExtensions
 					Area = picture.Area.Name,
 					Description = picture.Description,
 					Year = areaYear.Year.Value,
-					ParentArea = areaYear.Area.Parent!.Name
+					ParentArea = areaYear.Area.Parent!.Name,
+					CreatedOn = picture.CreatedOn.ToString("dd/MM/yyyy"),
+					UpdatedOn = picture.UpdatedOn.ToString("dd/MM/yyyy"),
+					CreatedBy = picture.CreatedBy.Username,
+					UpdatedBy = picture.UpdatedBy.Username,
 				});
 			})
 			.WithName("GetPictureDetails")

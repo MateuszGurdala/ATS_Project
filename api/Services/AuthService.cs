@@ -1,5 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using ATSAPI.Database;
 using ATSAPI.Database.Entities;
 
@@ -13,24 +15,25 @@ public class AuthService(IAppDbContext appDbContext) : IAuthService
 
 	public void HandleToken(JwtPayload token)
 	{
-		Claim? userIdClaim = token.Claims.FirstOrDefault(c => c.Type == "usrid");
-		Claim? roleIdClaim = token.Claims.FirstOrDefault(c => c.Type == "roleid");
-		string? userName = token.Sub;
+		var payload = token["payload"];
+		if (payload == null)
+			return;
 
-		if (userIdClaim == null || roleIdClaim == null || userName == null)
+		var payloadJson = JsonSerializer.Deserialize<JwtAuthPayload>(payload.ToString()!);
+		if (payloadJson == null)
 			return;
 
 		var user = appDbContext.UserAccount
-			.Where(ua => ua.RoleID == int.Parse(roleIdClaim.Value))
-			.Where(ua => ua.Username == userName)
-			.FirstOrDefault(ua => ua.Id == int.Parse(userIdClaim.Value));
+			.Where(ua => ua.RoleID == int.Parse(payloadJson.RoleId))
+			.Where(ua => ua.Username == payloadJson.UserName)
+			.FirstOrDefault(ua => ua.Id == int.Parse(payloadJson.UserId));
 
 		if (user == null)
 			return;
 
 		IsAuthenticated = true;
 		UserAccount = user;
-		RoleName = appDbContext.Role.First(r => r.Id == int.Parse(roleIdClaim.Value)).Name;
+		RoleName = appDbContext.Role.First(r => r.Id == int.Parse(payloadJson.RoleId)).Name;
 	}
 
 	public JwtSecurityToken IssueToken(UserAccount userAccount)
@@ -43,4 +46,12 @@ public class AuthService(IAppDbContext appDbContext) : IAuthService
 			],
 			expires: DateTime.UtcNow.AddMinutes(10)
 		);
+
+	private class JwtAuthPayload
+	{
+		[JsonPropertyName("roleid")] public string RoleId { get; set; }
+		[JsonPropertyName("usrid")] public string UserId { get; set; }
+		[JsonPropertyName("sub")] public string UserName { get; set; }
+		[JsonPropertyName("exp")] public long ExpiresInMs { get; set; }
+	}
 }

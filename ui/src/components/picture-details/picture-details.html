@@ -4,29 +4,49 @@
   </button>
 
   <form [formGroup]="detailsForm">
-    <mat-form-field appearance="outline">
+    <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
       <mat-label>Tytuł</mat-label>
       <input [readonly]="isReadonly()" formControlName="title" matInput placeholder="Wpisz tytuł">
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
       <mat-label>Obszar</mat-label>
       <input [readonly]="isReadonly()" formControlName="parentArea" matInput placeholder="Wpisz obszar">
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
       <mat-label>Miejsce</mat-label>
       <input [readonly]="isReadonly()" formControlName="area" matInput placeholder="Wpisz obszar">
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
       <mat-label>Rok</mat-label>
       <input [readonly]="isReadonly()" formControlName="year" matInput placeholder="Wpisz obszar">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
+      <mat-label>Dodał</mat-label>
+      <input [readonly]="isReadonly()" formControlName="createdBy" matInput placeholder="Wpisz obszar">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Dnia</mat-label>
+      <input [readonly]="isReadonly()" formControlName="createdOn" matInput placeholder="Wpisz obszar">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Edytował</mat-label>
+      <input [readonly]="isReadonly()" formControlName="updatedBy" matInput placeholder="Wpisz obszar">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Dnia</mat-label>
+      <input [readonly]="isReadonly()" formControlName="updatedOn" matInput placeholder="Wpisz obszar">
+    </mat-form-field>
+
+    <mat-form-field style="grid-column: 1 / span 2; grid-row: 7 / span 2" appearance="outline">
       <mat-label>Opis</mat-label>
-      <input [readonly]="isReadonly()" formControlName="description" matInput placeholder="Dodaj opis">
+      <input [readonly]="isReadonly()" formControlName="description" matInput>
     </mat-form-field>
   </form>
 </div>

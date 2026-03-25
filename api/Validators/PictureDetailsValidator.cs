@@ -5,7 +5,7 @@ namespace ATSAPI.Validators;
 
 public static class PictureDetailsValidator
 {
-	private static readonly int _maxYear = new DateTime().Year;
+	private static readonly int _maxYear = DateTime.UtcNow.Year;
 	private static readonly int _minYear = 1970;
 
 	public static bool ValidateDetails(PhotoDetails details, IAppDbContext appDbContext, out IResult? error)

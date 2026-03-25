@@ -32,7 +32,11 @@ export class PictureDetails {
     'year': new FormControl(null, [Validators.required, Validators.min(1980), Validators.max(new Date().getFullYear())]),
     'area': new FormControl('', [Validators.required]),
     'parentArea': new FormControl('', [Validators.required]),
-    'description': new FormControl('', [])
+    'description': new FormControl('', []),
+    'createdOn': new FormControl('',),
+    'createdBy': new FormControl('',),
+    'updatedOn': new FormControl('',),
+    'updatedBy': new FormControl('',),
   })
 
   constructor() {

@@ -24,9 +24,11 @@ SET IDENTITY_INSERT Role OFF;
 SET IDENTITY_INSERT UserAccount ON;
 
 INSERT INTO UserAccount
-    (UserAccountID, RoleID, Username, Password)
+    (UserAccountID, RoleID, Username, Password, IsActive)
 VALUES
-    (1, 1, 'CommunityAdmin', 'e34f637c1f56374b09e16101a1bc6d5b8de70b19b77046cef115e9fb2bc5ad2483b35fb9f779fc68d8188619390bfae733ef4b4f4b2a9ff920b43bd96e3208d3');
+    (1, 1, 'CommunityAdmin',
+        'e34f637c1f56374b09e16101a1bc6d5b8de70b19b77046cef115e9fb2bc5ad2483b35fb9f779fc68d8188619390bfae733ef4b4f4b2a9ff920b43bd96e3208d3',
+        1);
 
 SET IDENTITY_INSERT UserAccount OFF;
 
@@ -82,25 +84,25 @@ VALUES
 SET IDENTITY_INSERT Picture ON;
 
 INSERT INTO Picture
-    (PictureID, AreaID, Extension, Title, Description)
+    (PictureID, AreaID, Extension, Title, Description, IsActive, CreatedOn, UpdatedOn, CreatedBy, UpdatedBy)
 VALUES
-    (1, 6, 'jpg', 'Puławska', Null),
-    (2, 7, 'jpg', 'Aleja KEN', Null),
-    (3, 8, 'jpg', 'Służby Polsce', Null),
-    (4, 9, 'jpg', 'Belgradzka', Null),
-    (5, 9, 'jpg', 'Belgradzka', Null),
-    (6, 10, 'jpeg', 'Dembego', Null),
-    (7, 11, 'jpg', 'Aleja KEN', Null),
-    (8, 12, 'jpg', 'Pileckiego', Null),
-    (9, 13, 'jpg', 'Jastrzębowskieg', Null),
-    (10, 14, 'jpg', 'Aleja KEN', Null),
-    (11, 21, 'jpg', 'Kopcińskiego', Null),
-    (12, 15, 'jpg', 'Koncertowa', Null),
-    (13, 16, 'jpg', 'Surowieckiego', Null),
-    (14, 16, 'jpg', 'Rondo Budowniczych Ursynowa', Null),
-    (15, 17, 'jpg', 'Żabińskiego', Null),
-    (16, 18, 'jpg', 'Pustuleczki', Null),
-    (17, 19, 'jpg', 'Polinezyjska', Null),
-    (18, 20, 'jpg', 'Pasaż Ursynowski', Null);
+    (1, 6, 'jpg', 'Puławska', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (2, 7, 'jpg', 'Aleja KEN', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (3, 8, 'jpg', 'Służby Polsce', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (4, 9, 'jpg', 'Belgradzka', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (5, 9, 'jpg', 'Belgradzka', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (6, 10, 'jpeg', 'Dembego', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (7, 11, 'jpg', 'Aleja KEN', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (8, 12, 'jpg', 'Pileckiego', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (9, 13, 'jpg', 'Jastrzębowskieg', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (10, 14, 'jpg', 'Aleja KEN', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (11, 21, 'jpg', 'Kopcińskiego', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (12, 15, 'jpg', 'Koncertowa', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (13, 16, 'jpg', 'Surowieckiego', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (14, 16, 'jpg', 'Rondo Budowniczych Ursynowa', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (15, 17, 'jpg', 'Żabińskiego', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (16, 18, 'jpg', 'Pustuleczki', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (17, 19, 'jpg', 'Polinezyjska', Null, 1, GETDATE(), GETDATE(), 1, 1),
+    (18, 20, 'jpg', 'Pasaż Ursynowski', Null, 1, GETDATE(), GETDATE(), 1, 1);
 
 SET IDENTITY_INSERT Picture OFF;

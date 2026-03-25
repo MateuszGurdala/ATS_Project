@@ -78,7 +78,12 @@ public static class ApiPostExtensions
 				AreaId = area.Id,
 				Title = details.Title,
 				Description = details.Description,
-				Extension = extension
+				Extension = extension,
+				IsActive = true,
+				CreatedOn = DateTime.Now,
+				UpdatedOn = DateTime.Now,
+				CreatedById = authService.UserAccount.Id,
+				UpdatedById = authService.UserAccount.Id,
 			};
 
 			appDbContext.Picture.Add(picture);
