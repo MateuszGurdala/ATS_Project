@@ -6,8 +6,9 @@ import {PicturePreview} from '../types/picture-preview';
 import {RegisterUserAccountRequest} from '../types/requests/register-user-account-request';
 import {LoginRequest} from '../types/requests/login-request';
 import {UploadOptions} from '../types/responses/upload-options';
-import {UploadPhotoRequest} from '../types/requests/upload-photo-request';
-import {PictureDetails} from '../types/responses/picture-details';
+import {PhotoDetails, UploadPhotoRequest} from '../types/requests/upload-photo-request';
+import {PictureDetailsResponse} from '../types/responses/picture-details-response';
+import {UpdatePictureRequest} from '../types/requests/update-picture-request';
 
 @Injectable({
   providedIn: 'root',
@@ -32,8 +33,8 @@ export class HttpService {
     return this.httpClient.get<UploadOptions>(this.apiEndpoint + '/api/upload-options');
   }
 
-  public getPictureDetails(id: number): Observable<PictureDetails> {
-    return this.httpClient.get<PictureDetails>(this.apiEndpoint + '/api/picture/' + id);
+  public getPictureDetails(id: number): Observable<PictureDetailsResponse> {
+    return this.httpClient.get<PictureDetailsResponse>(this.apiEndpoint + '/api/picture/' + id);
   }
 
   public postRegisterUserAccount(request: RegisterUserAccountRequest): Observable<any> {
@@ -50,5 +51,9 @@ export class HttpService {
     formData.append("photoDetails", JSON.stringify(request.photoDetails));
 
     return this.httpClient.post<any>(this.apiEndpoint + '/api/picture/upload', formData);
+  }
+
+  public putUpdatePhoto(request: UpdatePictureRequest): Observable<any> {
+    return this.httpClient.put<any>(this.apiEndpoint + '/api/picture/update', request);
   }
 }

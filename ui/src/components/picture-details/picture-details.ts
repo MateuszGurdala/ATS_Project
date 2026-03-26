@@ -1,12 +1,17 @@
-import {Component, inject, signal, WritableSignal} from '@angular/core';
+import {ActivatedRoute, Data} from '@angular/router';
+import {AsyncPipe, Location} from '@angular/common';
+import {Component, inject, input, InputSignal, signal, WritableSignal} from '@angular/core';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
+import {MatError, MatFormField} from '@angular/material/form-field';
 import {MatFabButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
-import {Location} from '@angular/common';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatError, MatFormField} from '@angular/material/form-field';
 import {MatInput, MatLabel} from '@angular/material/input';
-import {ActivatedRoute, Data} from '@angular/router';
+import {MatSelect} from '@angular/material/select';
+import {UploadService} from '../../services/upload-service';
 import {UserAccountService} from '../../services/user-account-service';
+import {PictureDetailsResponse} from '../../types/responses/picture-details-response';
+import {PhotoDetails} from '../../types/requests/upload-photo-request';
 
 @Component({
   selector: 'app-picture-details',
@@ -18,17 +23,29 @@ import {UserAccountService} from '../../services/user-account-service';
     MatInput,
     MatLabel,
     ReactiveFormsModule,
-    MatFabButton
+    MatFabButton,
+    AsyncPipe,
+    MatAutocomplete,
+    MatAutocompleteTrigger,
+    MatError,
+    MatOption,
+    MatSelect
   ],
   templateUrl: './picture-details.html',
   styleUrl: './picture-details.css',
 })
 export class PictureDetails {
-  private readonly location: Location = inject(Location);
-  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
-  public userAccountService: UserAccountService = inject(UserAccountService)
+  public pictureId: InputSignal<number> = input(0);
 
+  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private readonly location: Location = inject(Location);
+  public readonly uploadService: UploadService = inject(UploadService)
+  public readonly userAccountService: UserAccountService = inject(UserAccountService)
+
+  public readonly editMode: WritableSignal<"edit" | "save"> = signal("edit")
   public readonly isReadonly: WritableSignal<boolean> = signal(true)
+
+  private detailsCopy: PhotoDetails | null = null;
 
   public readonly detailsForm: FormGroup = new FormGroup({
     'title': new FormControl('', [Validators.required]),
@@ -54,5 +71,34 @@ export class PictureDetails {
 
   public onStartEdit(): void {
     this.isReadonly.set(false);
+    this.detailsCopy = JSON.parse(JSON.stringify(this.detailsForm.value));
+    this.editMode.set("save");
+  }
+
+  public onStopEdit(): void {
+    if (!this.hasFormChanged())
+      this.detailsForm.setValue(this.detailsCopy!)
+
+    this.isReadonly.set(true);
+    this.editMode.set("edit");
+    this.detailsCopy = null;
+  }
+
+  public onSave(): void {
+    this.isReadonly.set(true);
+    this.editMode.set("edit");
+
+    if (this.hasFormChanged()) {
+      this.uploadService.updatePhotoDetails(this.pictureId(), this.detailsForm.value);
+    }
+    this.detailsCopy = null;
+  }
+
+  private hasFormChanged(): boolean {
+    return this.detailsCopy?.area != this.detailsForm.value.area ||
+      this.detailsCopy?.title != this.detailsForm.value.title ||
+      this.detailsCopy?.year != this.detailsForm.value.year ||
+      this.detailsCopy?.parentArea != this.detailsForm.value.parentArea ||
+      this.detailsCopy?.description != this.detailsForm.value.description;
   }
 }

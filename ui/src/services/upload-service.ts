@@ -4,6 +4,7 @@ import {BehaviorSubject} from 'rxjs';
 import {UploadOptions} from '../types/responses/upload-options';
 import {PhotoDetails} from '../types/requests/upload-photo-request';
 import {ToastrService} from 'ngx-toastr';
+import {PictureDetailsResponse} from '../types/responses/picture-details-response';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +47,20 @@ export class UploadService {
       error: () => {
         this.toastrService.error("Nie udało się zapisać zdjęcia.", "Błąd")
       }
+    })
+  }
+
+  public updatePhotoDetails(id: number, details: PhotoDetails): void {
+    this.httpService.putUpdatePhoto({
+      ...details,
+      id: id
+    }).subscribe({
+      next: () => {
+        this.toastrService.info("Zdjęcie zostało zapisane.")
+      },
+      error: () => {
+        this.toastrService.error("Nie udało się zapisać zdjęcia.", "Błąd")
+      },
     })
   }
 }

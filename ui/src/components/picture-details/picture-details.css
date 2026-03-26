@@ -28,6 +28,7 @@ form {
   display: grid;
   grid-template-rows: repeat(9, 1fr);
   grid-template-columns: 1fr 1fr;
+  gap: 1%;
   width: 100%;
   height: fit-content;
 
@@ -43,7 +44,7 @@ form {
   }
 
   mat-icon {
-    --icon-size: 36px;
+    --icon-size: 36spx;
 
     width: var(--icon-size);
     height: var(--icon-size);

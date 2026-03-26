@@ -1,7 +1,16 @@
 <div>
-  <button (click)="onGoBack()" matIconButton>
-    <mat-icon>arrow_backward</mat-icon>
-  </button>
+  @switch (editMode()) {
+    @case ("edit") {
+      <button (click)="onGoBack()" matIconButton>
+        <mat-icon>arrow_backward</mat-icon>
+      </button>
+    }
+    @case ("save") {
+      <button (click)="onStopEdit()" matIconButton>
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  }
 
   <form [formGroup]="detailsForm">
     <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
@@ -9,19 +18,65 @@
       <input [readonly]="isReadonly()" formControlName="title" matInput placeholder="Wpisz tytuł">
     </mat-form-field>
 
-    <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
-      <mat-label>Obszar</mat-label>
-      <input [readonly]="isReadonly()" formControlName="parentArea" matInput placeholder="Wpisz obszar">
-    </mat-form-field>
+    @if (isReadonly()) {
+      <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
+        <mat-label>Obszar</mat-label>
+        <input [readonly]="isReadonly()" formControlName="parentArea" matInput placeholder="Wpisz obszar">
+      </mat-form-field>
+    } @else {
+      <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
+        <mat-label>Obszar</mat-label>
+        <mat-select formControlName="parentArea" required>
+          @for (parentOption of uploadService.parentAreaDataSource | async; track parentOption) {
+            <mat-option [value]="parentOption">{{ parentOption }}</mat-option>
+          }
+        </mat-select>
+        @if (detailsForm.controls['parentArea'].hasError('required')) {
+          <mat-error>Pole nie może być puste</mat-error>
+        }
+      </mat-form-field>
+    }
 
     <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
       <mat-label>Miejsce</mat-label>
-      <input [readonly]="isReadonly()" formControlName="area" matInput placeholder="Wpisz obszar">
+      <input type="text"
+             placeholder="Wybierz lub wpisz miejsce"
+             aria-label="Miejsce"
+             matInput
+             formControlName="area"
+             [readonly]="isReadonly()"
+             [matAutocomplete]="areaAuto">
+      <mat-autocomplete #areaAuto="matAutocomplete">
+        @for (areaOption of uploadService.areaDataSource | async; track areaOption) {
+          <mat-option [value]="areaOption">{{ areaOption }}</mat-option>
+        }
+      </mat-autocomplete>
+      @if (detailsForm.controls['area'].hasError('required')) {
+        <mat-error>Pole nie może być puste</mat-error>
+      }
     </mat-form-field>
 
-    <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
+    <mat-form-field appearance="outline" style="grid-column: 1 / span 2">
       <mat-label>Rok</mat-label>
-      <input [readonly]="isReadonly()" formControlName="year" matInput placeholder="Wpisz obszar">
+      <input type="number"
+             placeholder="Wybierz lub wpisz rok"
+             aria-label="Rok"
+             matInput
+             formControlName="year"
+             [readonly]="isReadonly()"
+             [matAutocomplete]="yearAuto">
+      <mat-autocomplete #yearAuto="matAutocomplete">
+        @for (yearOption of uploadService.yearDataSource | async; track yearOption) {
+          <mat-option [value]="yearOption">{{ yearOption }}</mat-option>
+        }
+      </mat-autocomplete>
+      @if (detailsForm.controls['year'].hasError('required')) {
+        <mat-error>Pole nie może być puste</mat-error>
+      } @else if (detailsForm.controls['year'].hasError('min')) {
+        <mat-error>Najwcześniejszy dozwolony rok to 1970</mat-error>
+      } @else if (detailsForm.controls['year'].hasError('max')) {
+        <mat-error>Nieprawidłowa data</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -50,10 +105,20 @@
     </mat-form-field>
 
     @if (userAccountService.isAuthenticated.value) {
-      <button matFab extended style="grid-column: 2" (click)="onStartEdit()">
-        <mat-icon>edit</mat-icon>
-        Edytuj
-      </button>
+      @switch (editMode()) {
+        @case ("edit") {
+          <button matFab extended style="grid-column: 2" (click)="onStartEdit()">
+            <mat-icon>edit</mat-icon>
+            Edytuj
+          </button>
+        }
+        @case ("save") {
+          <button matFab extended style="grid-column: 2" (click)="onSave()">
+            <mat-icon>save</mat-icon>
+            Zapisz
+          </button>
+        }
+      }
     }
   </form>
 </div>

@@ -94,20 +94,20 @@ public static class ApiGetExtensions
 	private static void AddGetUploadOptions(this WebApplication webApplication) =>
 		webApplication.MapGet("/api/upload-options", async (IAppDbContext appDbContext) =>
 			{
-				Task<List<int>> years = appDbContext.Year
+				var years = await appDbContext.Year
 					.OrderByDescending(y => y.Value)
 					.Select(y => y.Value)
 					.Distinct()
 					.ToListAsync();
 
-				Task<List<string>> areas = appDbContext.Area
+				var areas = await appDbContext.Area
 					.Where(a => a.ParentId != null)
 					.OrderByDescending(a => a.Name)
 					.Select(a => a.Name)
 					.Distinct()
 					.ToListAsync();
 
-				Task<List<string>> parents = appDbContext.Area
+				var parents = await appDbContext.Area
 					.Where(a => a.ParentId == null)
 					.OrderByDescending(a => a.Name)
 					.Select(a => a.Name)
@@ -116,9 +116,9 @@ public static class ApiGetExtensions
 
 				return new UploadOptionsResponse
 				{
-					Years = await years,
-					Areas = await areas,
-					ParentAreas = await parents
+					Years = years,
+					Areas = areas,
+					ParentAreas = parents
 				};
 			})
 			.WithName("GetUploadOptions")
@@ -136,6 +136,7 @@ public static class ApiGetExtensions
 					.Include(p => p.UpdatedBy)
 					.Where(p => p.Id == id)
 					.AsNoTracking()
+					.AsSplitQuery()
 					.FirstOrDefault();
 
 				if (picture == null)
@@ -145,6 +146,7 @@ public static class ApiGetExtensions
 					.Include(ay => ay.Area)
 					.ThenInclude(a => a.Parent)
 					.Include(ay => ay.Year)
+					.AsSplitQuery()
 					.AsNoTracking()
 					.First(ay => ay.AreaId == picture.AreaId);
 

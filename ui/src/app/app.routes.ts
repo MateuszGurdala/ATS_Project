@@ -22,7 +22,7 @@ export const routes: Routes = [
     component: PhotoPage,
     title: "Zdjęcie",
     resolve: {
-      details: pictureDetailsResolver
+      details: pictureDetailsResolver, uploadOptionsResolver
     }
   },
   {

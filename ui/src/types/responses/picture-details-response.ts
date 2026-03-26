@@ -1,4 +1,4 @@
-export interface PictureDetails {
+export interface PictureDetailsResponse {
   area: string;
   createdBy: string;
   createdOn: string;
