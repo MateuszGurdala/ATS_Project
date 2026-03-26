@@ -82,6 +82,7 @@ export class SearchService {
   public loadPictures(): void {
     let params = new HttpParams().set("year", this.selectedYear());
     params = !!this.selectedArea() ? params.set("area", String(this.selectedArea())) : params;
+    this.httpService.getPictures(params);
 
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
@@ -91,8 +92,6 @@ export class SearchService {
       },
       queryParamsHandling: 'merge'
     });
-
-    this.httpService.getPictures(params);
   }
 
   private setYear(year: number): void {

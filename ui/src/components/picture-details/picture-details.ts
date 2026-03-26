@@ -88,6 +88,7 @@ export class PictureDetails {
     if (this.hasFormChanged()) {
       this.uploadService.updatePhotoDetails(this.pictureId(), this.detailsForm.value);
     }
+
     this.detailsCopy = null;
   }
 

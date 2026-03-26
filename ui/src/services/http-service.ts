@@ -1,4 +1,4 @@
-import {BehaviorSubject, Observable, shareReplay, switchMap} from 'rxjs';
+import {BehaviorSubject, filter, Observable, shareReplay, switchMap, tap} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {LoginRequest} from '../types/requests/login-request';
 import {PictureDetailsResponse} from '../types/responses/picture-details-response';
@@ -25,6 +25,10 @@ export class HttpService {
   private readonly pictureDetailsSubject: BehaviorSubject<number> = new BehaviorSubject(0);
   private readonly picturesSubject: BehaviorSubject<HttpParams | null> = new BehaviorSubject<HttpParams | null>(null);
 
+  constructor() {
+    console.log("XD")
+  }
+
   public readonly yearsDataSource: Observable<number[]> = this.yearsSubject.pipe(
     switchMap((): Observable<number[]> => this.httpClient.get<number[]>(this.apiEndpoint + '/api/available-years')),
     shareReplay(this.replayCount)
@@ -41,6 +45,7 @@ export class HttpService {
   )
 
   public readonly picturesDataSource: Observable<PicturePreview[]> = this.picturesSubject.pipe(
+    filter(val => val !== null),
     switchMap((params: any): Observable<PicturePreview[]> => this.httpClient.get<PicturePreview[]>(this.apiEndpoint + '/api/pictures', {params: params})),
     shareReplay(this.replayCount)
   )
@@ -62,7 +67,7 @@ export class HttpService {
   }
 
   public getPictures(params: HttpParams | null): void {
-    this.picturesSubject.next(params);
+    if (!!params) this.picturesSubject.next(params);
   }
 
   public getPictureDetails(id: number): void {

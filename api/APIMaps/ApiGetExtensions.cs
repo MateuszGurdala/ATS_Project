@@ -132,6 +132,9 @@ public static class ApiGetExtensions
 				Picture? picture = appDbContext.Picture
 					.Include(p => p.Area)
 					.ThenInclude(p => p.AreaYears)
+					.ThenInclude(ay => ay.Year)
+					.Include(ay => ay.Area)
+					.ThenInclude(a => a.Parent)
 					.Include(p => p.CreatedBy)
 					.Include(p => p.UpdatedBy)
 					.Where(p => p.Id == id)
@@ -142,21 +145,13 @@ public static class ApiGetExtensions
 				if (picture == null)
 					return Results.BadRequest("Picture not found.");
 
-				AreaYear areaYear = appDbContext.AreaYear
-					.Include(ay => ay.Area)
-					.ThenInclude(a => a.Parent)
-					.Include(ay => ay.Year)
-					.AsSplitQuery()
-					.AsNoTracking()
-					.First(ay => ay.AreaId == picture.AreaId);
-
 				return Results.Ok(new PictureDetailsResponse
 				{
 					Title = picture.Title,
 					Area = picture.Area.Name,
 					Description = picture.Description,
-					Year = areaYear.Year.Value,
-					ParentArea = areaYear.Area.Parent!.Name,
+					Year = picture.Area.AreaYears.First().Year.Value,
+					ParentArea = picture.Area.Parent!.Name,
 					CreatedOn = picture.CreatedOn.ToString("dd/MM/yyyy"),
 					UpdatedOn = picture.UpdatedOn.ToString("dd/MM/yyyy"),
 					CreatedBy = picture.CreatedBy.Username,
