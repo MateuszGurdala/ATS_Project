@@ -45,6 +45,7 @@ export class ThemeService {
   private setDark(): void {
     document.documentElement.style.setProperty('--accent', '#22b8cf');
     document.documentElement.style.setProperty('--accent-tint', '#66d9e8');
+    document.documentElement.style.setProperty('--grey', '#22b8cf');
     document.documentElement.style.setProperty('--grey-shadow', '#22b8cf');
     document.documentElement.style.setProperty('--main', '#212529');
     document.documentElement.style.setProperty('--main-shade', '#0D0F10');
@@ -59,13 +60,14 @@ export class ThemeService {
   private setDefault(): void {
     document.documentElement.style.setProperty('--accent', '#22b8cf');
     document.documentElement.style.setProperty('--accent-tint', '#66d9e8');
+    document.documentElement.style.setProperty('--grey', '#333');
     document.documentElement.style.setProperty('--grey-shadow', '#888');
     document.documentElement.style.setProperty('--main', '#dee2e6');
     document.documentElement.style.setProperty('--main-shade', '#adb5bd');
     document.documentElement.style.setProperty('--main-tint', '#f1f3f5');
     document.documentElement.style.setProperty('--mat-form-field-outlined-input-text-color', '#222');
     document.documentElement.style.setProperty('--mat-form-field-outlined-label-text-color', '#888');
-    document.documentElement.style.setProperty('--mat-tree-button-color', '#222');
+    document.documentElement.style.setProperty('--mat-tree-button-color', '#333');
 
     this.theme.set("default")
   }
@@ -73,6 +75,7 @@ export class ThemeService {
   private setContrast(): void {
     document.documentElement.style.setProperty('--accent', 'blue');
     document.documentElement.style.setProperty('--accent-tint', 'blue');
+    document.documentElement.style.setProperty('--grey', 'blue');
     document.documentElement.style.setProperty('--grey-shadow', 'blue');
     document.documentElement.style.setProperty('--main', 'black');
     document.documentElement.style.setProperty('--main-shade', 'black');
