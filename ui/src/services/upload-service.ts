@@ -45,7 +45,11 @@ export class UploadService {
         files.splice(files.indexOf(file), 1)
 
         this.toastrService.info("Zdjęcie zostało zapisane.")
-        this.pictureDataSource.next(files);
+
+        if (files.length != 0)
+          this.pictureDataSource.next(files);
+        else
+          this.hasUploadedPictures.set(false);
       },
       error: () => {
         this.toastrService.error("Nie udało się zapisać zdjęcia.", "Błąd")
