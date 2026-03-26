@@ -12,10 +12,14 @@
   --mat-icon-button-state-layer-size: var(--button-size); /*40px*/
 }
 
-span {
+h1 {
+  background: var(--accent-gradient);
+  font-size: 3.4em;
   margin: auto;
-  font-size: 3em;
-  color: var(--grey);
+  padding: 3% 0;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 button {
