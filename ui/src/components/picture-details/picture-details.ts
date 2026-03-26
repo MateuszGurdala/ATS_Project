@@ -11,6 +11,7 @@ import {MatSelect} from '@angular/material/select';
 import {PhotoDetails} from '../../types/requests/upload-photo-request';
 import {UploadService} from '../../services/upload-service';
 import {UserAccountService} from '../../services/user-account-service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-picture-details',
@@ -38,6 +39,8 @@ export class PictureDetails {
 
   private readonly location: Location = inject(Location);
   private readonly httpService: HttpService = inject(HttpService);
+  private readonly toastrService: ToastrService = inject(ToastrService);
+
   public readonly uploadService: UploadService = inject(UploadService)
   public readonly userAccountService: UserAccountService = inject(UserAccountService)
 
@@ -86,7 +89,15 @@ export class PictureDetails {
     this.editMode.set("edit");
 
     if (this.hasFormChanged()) {
-      this.uploadService.updatePhotoDetails(this.pictureId(), this.detailsForm.value);
+      this.uploadService.updatePhotoDetails(this.pictureId(), this.detailsForm.value).subscribe({
+        next: () => {
+          this.toastrService.info("Zdjęcie zostało zapisane.")
+          this.httpService.getPictureDetails(this.pictureId());
+        },
+        error: () => {
+          this.toastrService.error("Nie udało się zapisać zdjęcia.", "Błąd")
+        },
+      });
     }
 
     this.detailsCopy = null;
