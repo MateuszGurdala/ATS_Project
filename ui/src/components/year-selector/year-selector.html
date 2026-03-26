@@ -1,4 +1,7 @@
-<h1 style="grid-column: 1 / span 4">{{ searchService.selectedYear() }}</h1>
+<div>
+  <h1 style="">{{ searchService.selectedYear() }}</h1>
+</div>
+
 @if (searchService.selectedYear() != searchService.minYear()) {
   <button style="grid-column: 1"
           matIconButton
