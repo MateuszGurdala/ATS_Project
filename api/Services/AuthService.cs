@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using ATSAPI.Database;
 using ATSAPI.Database.Entities;
 using ATSAPI.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ATSAPI.Services;
 
@@ -12,7 +13,6 @@ public class AuthService(IAppDbContext appDbContext) : IAuthService
 {
 	public bool IsAuthenticated { get; private set; } = false;
 	public UserAccount UserAccount { get; private set; }
-	public string RoleName { get; private set; }
 
 	public void HandleToken(JwtPayload token)
 	{
@@ -25,6 +25,7 @@ public class AuthService(IAppDbContext appDbContext) : IAuthService
 			return;
 
 		var user = appDbContext.UserAccount
+			.Include(ua => ua.Role)
 			.Where(ua => ua.RoleID == int.Parse(payloadJson.RoleId))
 			.Where(ua => ua.Username == payloadJson.UserName)
 			.FirstOrDefault(ua => ua.Id == int.Parse(payloadJson.UserId));
@@ -34,7 +35,6 @@ public class AuthService(IAppDbContext appDbContext) : IAuthService
 
 		IsAuthenticated = true;
 		UserAccount = user;
-		RoleName = appDbContext.Role.First(r => r.Id == int.Parse(payloadJson.RoleId)).Name;
 	}
 
 	public JwtSecurityToken IssueToken(UserAccount userAccount)

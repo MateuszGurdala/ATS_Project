@@ -1,10 +1,9 @@
-import {inject, Injectable, signal, WritableSignal} from '@angular/core';
-import {HttpService} from './http-service';
 import {BehaviorSubject} from 'rxjs';
-import {UploadOptions} from '../types/responses/upload-options';
+import {HttpService} from './http-service';
 import {PhotoDetails} from '../types/requests/upload-photo-request';
 import {ToastrService} from 'ngx-toastr';
-import {PictureDetailsResponse} from '../types/responses/picture-details-response';
+import {UploadOptions} from '../types/responses/upload-options';
+import {inject, Injectable, signal, WritableSignal} from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +19,10 @@ export class UploadService {
 
   public readonly hasUploadedPictures: WritableSignal<boolean> = signal(false);
 
+  constructor() {
+    this.httpService.optionsDataSource.subscribe((value: UploadOptions): void => this.setUploadOptions(value))
+  }
+
   public setUploadPhotos(files: FileList): void {
     for (const fileIndex in files) {
       if (fileIndex == "length") break;
@@ -29,7 +32,7 @@ export class UploadService {
     this.hasUploadedPictures.set(true);
   }
 
-  public setUploadOptions(options: UploadOptions): void {
+  private setUploadOptions(options: UploadOptions): void {
     this.yearDataSource.next(options.years)
     this.areaDataSource.next(options.areas)
     this.parentAreaDataSource.next(options.parentAreas)

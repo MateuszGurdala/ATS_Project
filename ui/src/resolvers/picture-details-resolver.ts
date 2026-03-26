@@ -1,11 +1,9 @@
-import {ResolveFn} from '@angular/router';
 import {HttpService} from '../services/http-service';
+import {ResolveFn} from '@angular/router';
 import {inject} from '@angular/core';
-import {Observable} from 'rxjs';
-import {PictureDetailsResponse} from '../types/responses/picture-details-response';
 
-export const pictureDetailsResolver: ResolveFn<Observable<PictureDetailsResponse>> = (route, state) => {
+export const pictureDetailsResolver: ResolveFn<boolean> = (route, state) => {
   void state;
-  const httpService: HttpService = inject(HttpService);
-  return httpService.getPictureDetails(route.params['id']);
+  inject(HttpService).getPictureDetails(route.params['id']);
+  return true;
 };

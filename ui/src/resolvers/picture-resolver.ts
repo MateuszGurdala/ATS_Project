@@ -1,7 +1,8 @@
 import {ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot} from '@angular/router';
-import {SearchService} from '../services/search-service';
-import {inject} from '@angular/core';
 import {HttpService} from '../services/http-service';
+import {SearchService} from '../services/search-service';
+import {combineLatest} from 'rxjs';
+import {inject} from '@angular/core';
 
 export const pictureResolver: ResolveFn<boolean> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   void route, state;
@@ -9,15 +10,10 @@ export const pictureResolver: ResolveFn<boolean> = (route: ActivatedRouteSnapsho
   const searchService: SearchService = inject(SearchService);
   const httpService: HttpService = inject(HttpService);
 
-  httpService.getAvailableYears().subscribe((years) => {
-    searchService.setAvailableYears(years);
-  });
+  combineLatest([httpService.yearsDataSource, httpService.areasDataSource]).subscribe(() => searchService.loadPictures());
 
-  httpService.getAreas().subscribe((areas) => {
-    searchService.setAvailableAreas(areas);
-    searchService.init();
-    searchService.loadPictures();
-  });
+  httpService.getAvailableYears();
+  httpService.getAreas();
 
   return true;
 };

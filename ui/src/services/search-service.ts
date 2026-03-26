@@ -1,10 +1,10 @@
-import {inject, Injectable, signal, WritableSignal} from '@angular/core';
-import {TreeNode} from '../types/tree-node';
-import {BehaviorSubject, Subject} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PicturePreview} from '../types/picture-preview';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {HttpParams} from '@angular/common/http';
 import {HttpService} from './http-service';
+import {PicturePreview} from '../types/picture-preview';
+import {TreeNode} from '../types/tree-node';
+import {inject, Injectable, signal, WritableSignal} from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -30,21 +30,22 @@ export class SearchService {
   constructor() {
     this.selectedYear = signal<number>(+(localStorage.getItem('year') ?? '0'))
     this.selectedArea = signal<string | null>(localStorage.getItem('area') ?? null)
-  }
 
-  public init(): void {
-    this.setYear(this.selectedYear() == 0 ? this.availableYears[0] : this.selectedYear())
-    this.minYear.set(this.availableYears[0]);
-    this.maxYear.set(this.availableYears[this.availableYears.length - 1]);
-    this.areaDataSource.next(this.availableAreas[this.selectedYear()] ?? [])
-  }
+    this.httpService.yearsDataSource.subscribe((value) => {
+      this.availableYears = value;
+      this.setYear(this.selectedYear() == 0 ? this.availableYears[0] : this.selectedYear())
+      this.minYear.set(this.availableYears[0]);
+      this.maxYear.set(this.availableYears[this.availableYears.length - 1]);
+    });
 
-  public setAvailableAreas(areas: { [p: number]: TreeNode[] }): void {
-    this.availableAreas = areas;
-  }
+    this.httpService.areasDataSource.subscribe((value) => {
+      this.availableAreas = value;
+      this.areaDataSource.next(this.availableAreas[this.selectedYear()] ?? [])
+    });
 
-  public setAvailableYears(years: number[]): void {
-    this.availableYears = years;
+    this.httpService.picturesDataSource.subscribe((value) => {
+      this.pictureDataSource.set(value)
+    });
   }
 
   public setYearToMin(): void {
@@ -80,7 +81,7 @@ export class SearchService {
 
   public loadPictures(): void {
     let params = new HttpParams().set("year", this.selectedYear());
-    params = this.selectedArea()!! ? params.set("area", String(this.selectedArea())) : params;
+    params = !!this.selectedArea() ? params.set("area", String(this.selectedArea())) : params;
 
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
@@ -91,9 +92,7 @@ export class SearchService {
       queryParamsHandling: 'merge'
     });
 
-    this.httpService.getPictures(params).subscribe((pictures) => {
-      this.pictureDataSource.set(pictures)
-    });
+    this.httpService.getPictures(params);
   }
 
   private setYear(year: number): void {

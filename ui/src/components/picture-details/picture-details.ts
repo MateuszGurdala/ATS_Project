@@ -1,17 +1,16 @@
-import {ActivatedRoute, Data} from '@angular/router';
 import {AsyncPipe, Location} from '@angular/common';
 import {Component, inject, input, InputSignal, signal, WritableSignal} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {HttpService} from '../../services/http-service';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {MatError, MatFormField} from '@angular/material/form-field';
 import {MatFabButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatInput, MatLabel} from '@angular/material/input';
 import {MatSelect} from '@angular/material/select';
+import {PhotoDetails} from '../../types/requests/upload-photo-request';
 import {UploadService} from '../../services/upload-service';
 import {UserAccountService} from '../../services/user-account-service';
-import {PictureDetailsResponse} from '../../types/responses/picture-details-response';
-import {PhotoDetails} from '../../types/requests/upload-photo-request';
 
 @Component({
   selector: 'app-picture-details',
@@ -37,8 +36,8 @@ import {PhotoDetails} from '../../types/requests/upload-photo-request';
 export class PictureDetails {
   public pictureId: InputSignal<number> = input(0);
 
-  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private readonly location: Location = inject(Location);
+  private readonly httpService: HttpService = inject(HttpService);
   public readonly uploadService: UploadService = inject(UploadService)
   public readonly userAccountService: UserAccountService = inject(UserAccountService)
 
@@ -60,9 +59,7 @@ export class PictureDetails {
   })
 
   constructor() {
-    this.activatedRoute.data.subscribe((data: Data) => {
-      this.detailsForm.setValue(data['details']);
-    })
+    this.httpService.pictureDetailsDataSource.subscribe((data) => this.detailsForm.setValue(data));
   }
 
   public onGoBack(): void {
