@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ATSAPI;
+namespace ATSAPI.Utils;
 
 public static class Utils
 {

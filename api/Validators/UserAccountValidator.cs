@@ -27,7 +27,7 @@ public static class UserAccountValidator
 
 		UserAccount? userAccount = dbContext.UserAccount.FirstOrDefault(ua =>
 			ua.Username == request.UserName &&
-			ua.Password == Utils.GetSHA512(request.Password)
+			ua.Password == Utils.Utils.GetSHA512(request.Password)
 		);
 
 		if (userAccount == null)

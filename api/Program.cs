@@ -2,6 +2,7 @@ using ATSAPI.APIMaps;
 using ATSAPI.Database;
 using ATSAPI.Extensions;
 using ATSAPI.Services;
+using ATSAPI.Services.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);

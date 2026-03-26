@@ -1,6 +1,6 @@
 using ATSAPI.Database.Entities;
 
-namespace ATSAPI.Services;
+namespace ATSAPI.Services.Interfaces;
 
 public interface IOptionsService
 {

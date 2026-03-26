@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using ATSAPI.Database.Entities;
 
-namespace ATSAPI.Services;
+namespace ATSAPI.Services.Interfaces;
 
 public interface IAuthService
 {

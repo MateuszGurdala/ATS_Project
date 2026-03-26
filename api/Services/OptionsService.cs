@@ -1,5 +1,6 @@
 using ATSAPI.Database;
 using ATSAPI.Database.Entities;
+using ATSAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ATSAPI.Services;

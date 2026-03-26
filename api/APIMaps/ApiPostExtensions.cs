@@ -4,6 +4,7 @@ using ATSAPI.Database;
 using ATSAPI.Database.Entities;
 using ATSAPI.Models.Request;
 using ATSAPI.Services;
+using ATSAPI.Services.Interfaces;
 using ATSAPI.Validators;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,7 +33,7 @@ public static class ApiPostExtensions
 			var userAccount = new UserAccount
 			{
 				Username = request.UserName,
-				Password = Utils.GetSHA512(request.Password),
+				Password = Utils.Utils.GetSHA512(request.Password),
 				RoleID = userRoleId.Id
 			};
 
@@ -52,7 +53,7 @@ public static class ApiPostExtensions
 
 				UserAccount userAccount = dbContext.UserAccount.First(ua =>
 					ua.Username == request.UserName &&
-					ua.Password == Utils.GetSHA512(request.Password)
+					ua.Password == Utils.Utils.GetSHA512(request.Password)
 				);
 
 				return Results.Ok(authService.IssueToken(userAccount));

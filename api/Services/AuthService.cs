@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using ATSAPI.Database;
 using ATSAPI.Database.Entities;
+using ATSAPI.Services.Interfaces;
 
 namespace ATSAPI.Services;
 
