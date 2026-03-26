@@ -1,5 +1,5 @@
 import {BehaviorSubject, filter, Observable, shareReplay, switchMap, tap} from 'rxjs';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {LoginRequest} from '../types/requests/login-request';
 import {PictureDetailsResponse} from '../types/responses/picture-details-response';
 import {PicturePreview} from '../types/picture-preview';
@@ -24,10 +24,6 @@ export class HttpService {
   private readonly areasSubject: BehaviorSubject<boolean> = new BehaviorSubject(true);
   private readonly pictureDetailsSubject: BehaviorSubject<number> = new BehaviorSubject(0);
   private readonly picturesSubject: BehaviorSubject<HttpParams | null> = new BehaviorSubject<HttpParams | null>(null);
-
-  constructor() {
-    console.log("XD")
-  }
 
   public readonly yearsDataSource: Observable<number[]> = this.yearsSubject.pipe(
     switchMap((): Observable<number[]> => this.httpClient.get<number[]>(this.apiEndpoint + '/api/available-years')),
@@ -87,10 +83,18 @@ export class HttpService {
     formData.append("file", request.file, request.file.name);
     formData.append("photoDetails", JSON.stringify(request.photoDetails));
 
-    return this.httpClient.post<any>(this.apiEndpoint + '/api/picture/upload', formData);
+    return this.httpClient.post<any>(
+      this.apiEndpoint + '/api/picture/upload',
+      formData,
+      {headers: new HttpHeaders().append('Authorization', localStorage.getItem("token")!)}
+    );
   }
 
   public putUpdatePhoto(request: UpdatePictureRequest): Observable<any> {
-    return this.httpClient.put<any>(this.apiEndpoint + '/api/picture/update', request);
+    return this.httpClient.put<any>(
+      this.apiEndpoint + '/api/picture/update',
+      request,
+      {headers: new HttpHeaders().append('Authorization', localStorage.getItem("token")!)}
+    );
   }
 }
