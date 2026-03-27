@@ -26,8 +26,8 @@ SET IDENTITY_INSERT UserAccount ON;
 INSERT INTO UserAccount
     (UserAccountID, RoleID, Username, Password, IsActive)
 VALUES
-    (1, 1, 'CommunityAdmin',
-        'e34f637c1f56374b09e16101a1bc6d5b8de70b19b77046cef115e9fb2bc5ad2483b35fb9f779fc68d8188619390bfae733ef4b4f4b2a9ff920b43bd96e3208d3',
+    (1, 1, 'admin',
+        'n7Xpjn34CvTMluYiqb7pw9SWasb2Tl36kd0CQHkK33Ow/ZMOxuuPIYMNY1PljOZuciU/j8gERgiAcUhPUw7c7A==', --atsadmin1
         1);
 
 SET IDENTITY_INSERT UserAccount OFF;

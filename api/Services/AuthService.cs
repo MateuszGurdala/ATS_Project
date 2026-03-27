@@ -43,6 +43,7 @@ public class AuthService(IAppDbContext appDbContext) : IAuthService
 			[
 				new Claim(JwtRegisteredClaimNames.Sub, userAccount.Username),
 				new Claim("roleid", userAccount.RoleID.ToString()),
+				new Claim("rolename", userAccount.Role.Name),
 				new Claim("usrid", userAccount.Id.ToString())
 			],
 			expires: DateTime.UtcNow.AddMinutes(10)

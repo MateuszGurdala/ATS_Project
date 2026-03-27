@@ -7,6 +7,7 @@ using ATSAPI.Services;
 using ATSAPI.Services.Interfaces;
 using ATSAPI.Validators;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ATSAPI.APIMaps;
 
@@ -34,7 +35,8 @@ public static class ApiPostExtensions
 			{
 				Username = request.UserName,
 				Password = Utils.Utils.GetSHA512(request.Password),
-				RoleID = userRoleId.Id
+				RoleID = userRoleId.Id,
+				IsActive = true
 			};
 
 			dbContext.UserAccount.Add(userAccount);
@@ -51,10 +53,14 @@ public static class ApiPostExtensions
 				if (!UserAccountValidator.ValidateLoginRequest(request, dbContext, out IResult? error))
 					return error!;
 
-				UserAccount userAccount = dbContext.UserAccount.First(ua =>
-					ua.Username == request.UserName &&
-					ua.Password == Utils.Utils.GetSHA512(request.Password)
-				);
+				UserAccount userAccount = dbContext.UserAccount
+					.Include(ua => ua.Role)
+					.Where(ua => ua.IsActive)
+					.AsNoTracking()
+					.First(ua =>
+						ua.Username == request.UserName &&
+						ua.Password == Utils.Utils.GetSHA512(request.Password)
+					);
 
 				return Results.Ok(authService.IssueToken(userAccount));
 			})

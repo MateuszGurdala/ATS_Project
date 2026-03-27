@@ -13,4 +13,5 @@ public interface IAppDbContext
 	public DbSet<Year> Year { get; set; }
 
 	public int SaveChanges();
+	public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

@@ -29,6 +29,10 @@
   --mat-form-field-outlined-label-text-color: var(--grey);
   --mat-icon-color: var(--accent);
   --mat-tree-button-color: var(--grey);
+  --mat-select-panel-background-color: var(--main-tint);
+  --mat-select-enabled-trigger-text-color: var(--grey);
+  --mat-option-label-text-color: var(--grey);
+  --mat-form-field-filled-container-color: transparent;
 
   scrollbar-color: var(--accent);
   user-select: none;

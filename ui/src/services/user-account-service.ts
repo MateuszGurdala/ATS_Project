@@ -13,13 +13,10 @@ export class UserAccountService {
 
   public readonly isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  private token: {} | null = null;
-
   constructor() {
     const storageToken = localStorage.getItem("token")
 
     if (!!storageToken) {
-      this.token = storageToken;
       this.isAuthenticated.next(true);
     }
   }
@@ -38,15 +35,17 @@ export class UserAccountService {
     })
   }
 
-  public login(token: {}): void {
-    this.token = token;
+  public isAdmin(): boolean {
+    return this.isAuthenticated.value && JSON.parse(localStorage.getItem("token") ?? "").payload.rolename === "Admin";
+  }
+
+  public login(token: any): void {
     localStorage.setItem("token", JSON.stringify(token))
     this.isAuthenticated.next(true);
     this.router.navigate(["/main"])
   }
 
   public logout(): void {
-    this.token = null;
     localStorage.removeItem("token");
     this.isAuthenticated.next(false);
   }

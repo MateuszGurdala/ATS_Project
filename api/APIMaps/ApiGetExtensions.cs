@@ -20,10 +20,18 @@ public static class ApiGetExtensions
 		webApplication.AddGetPictureDetails();
 	}
 
-	private static void AddGetAvailableYears(this WebApplication webApplication) =>
-		webApplication.MapGet("/api/available-years", (IAppDbContext appDbContext) => appDbContext.Year.Select(year => year.Value).OrderBy(value => value))
-			.WithName("GetAvailableYears")
-			.WithOpenApi();
+	private static void AddGetAvailableYears(this WebApplication webApplication) => webApplication.MapGet("/api/available-years",
+			(IAppDbContext appDbContext) => appDbContext.Year
+				.Include(y => y.AreaYears)
+				.ThenInclude(ay => ay.Area)
+				.ThenInclude(a => a.Pictures)
+				.SelectMany(y => y.AreaYears)
+				.Where(ay => ay.Area.Pictures!.Any(p => p.IsActive))
+				.Select(ay => ay.Year.Value)
+				.Distinct()
+				.OrderBy(value => value))
+		.WithName("GetAvailableYears")
+		.WithOpenApi();
 
 	private static void AddGetPictures(this WebApplication webApplication) => webApplication.MapGet("/api/pictures",
 			([FromQuery(Name = "year")] int? yearValue, [FromQuery(Name = "area")] string? areaName, IAppDbContext appDbContext) =>
@@ -32,8 +40,11 @@ public static class ApiGetExtensions
 					.Include(ay => ay.Year)
 					.Include(ay => ay.Area)
 					.ThenInclude(a => a.Parent)
+					.Include(ay => ay.Area)
+					.ThenInclude(a => a.Pictures)
 					.WhereIf(ay => ay.Year.Value == yearValue, yearValue != null)
 					.WhereIf(ay => ay.Area.Name == areaName || (ay.Area.Parent != null && ay.Area.Parent.Name == areaName), areaName != null)
+					.Where(ay => ay.Area.Pictures!.Any(p => p.IsActive))
 					.AsSplitQuery()
 					.Select(ay => ay.AreaId);
 
@@ -58,6 +69,9 @@ public static class ApiGetExtensions
 
 				var areaYears = await appDbContext.AreaYear
 					.Include(ay => ay.Year)
+					.Include(ay => ay.Area)
+					.ThenInclude(a => a.Pictures)
+					.Where(ay => ay.Area.Pictures!.Any(p => p.IsActive))
 					.OrderBy(ay => ay.Year.Value)
 					.GroupBy(ay => ay.Year.Value)
 					.AsSplitQuery()

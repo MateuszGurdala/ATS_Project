@@ -12,6 +12,7 @@ import {PhotoDetails} from '../../types/requests/upload-photo-request';
 import {UploadService} from '../../services/upload-service';
 import {UserAccountService} from '../../services/user-account-service';
 import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-picture-details',
@@ -44,7 +45,7 @@ export class PictureDetails {
   public readonly uploadService: UploadService = inject(UploadService)
   public readonly userAccountService: UserAccountService = inject(UserAccountService)
 
-  public readonly editMode: WritableSignal<"edit" | "save"> = signal("edit")
+  public readonly editMode: WritableSignal<"edit" | "save" | "delete"> = signal("edit")
   public readonly isReadonly: WritableSignal<boolean> = signal(true)
 
   private detailsCopy: PhotoDetails | null = null;
@@ -101,6 +102,24 @@ export class PictureDetails {
     }
 
     this.detailsCopy = null;
+  }
+
+  public onStartDelete(): void {
+    this.editMode.set("delete")
+  }
+
+  public onDelete(): void {
+    this.editMode.set("edit");
+
+    this.uploadService.deletePhoto(this.pictureId()).subscribe({
+      next: () => {
+        this.toastrService.info("Zdjęcie zostało usunięte.");
+        this.onGoBack();
+      },
+      error: () => {
+        this.toastrService.error("Nie udało się usunąć zdjęcia.", "Błąd")
+      }
+    })
   }
 
   private hasFormChanged(): boolean {

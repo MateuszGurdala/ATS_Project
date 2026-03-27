@@ -42,6 +42,7 @@ if (app.Environment.IsDevelopment())
 app.AddGetEndpoints();
 app.AddPostEndpoints();
 app.AddPutEndpoints();
+app.AddDeleteEndpoints();
 
 app.UseHttpsRedirection();
 app.UseCors(nameof(allowedOrigins));

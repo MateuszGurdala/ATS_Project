@@ -97,4 +97,11 @@ export class HttpService {
       {headers: new HttpHeaders().append('Authorization', localStorage.getItem("token")!)}
     );
   }
+
+  public deletePhoto(id: number): Observable<any> {
+    return this.httpClient.delete<any>(
+      this.apiEndpoint + '/api/picture/delete/' + id,
+      {headers: new HttpHeaders().append('Authorization', localStorage.getItem("token")!)}
+    )
+  }
 }

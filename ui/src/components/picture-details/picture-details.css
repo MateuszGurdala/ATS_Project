@@ -44,7 +44,7 @@ form {
   }
 
   mat-icon {
-    --icon-size: 36spx;
+    --icon-size: 36px;
 
     width: var(--icon-size);
     height: var(--icon-size);

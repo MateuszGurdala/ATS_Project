@@ -10,6 +10,11 @@
         <mat-icon>close</mat-icon>
       </button>
     }
+    @case ("delete") {
+      <button (click)="onStopEdit()" matIconButton>
+        <mat-icon>close</mat-icon>
+      </button>
+    }
   }
 
   <form [formGroup]="detailsForm">
@@ -107,6 +112,12 @@
     @if (userAccountService.isAuthenticated.value) {
       @switch (editMode()) {
         @case ("edit") {
+          @if (userAccountService.isAdmin()) {
+            <button matFab extended style="grid-column: 1" (click)="onStartDelete()">
+              <mat-icon>delete</mat-icon>
+              Usuń
+            </button>
+          }
           <button matFab extended style="grid-column: 2" (click)="onStartEdit()">
             <mat-icon>edit</mat-icon>
             Edytuj
@@ -116,6 +127,12 @@
           <button matFab extended style="grid-column: 2" (click)="onSave()">
             <mat-icon>save</mat-icon>
             Zapisz
+          </button>
+        }
+        @case ("delete") {
+          <button matFab extended style="grid-column: 1 / span 2" (click)="onDelete()">
+            <mat-icon>delete_forever</mat-icon>
+            Potwierdź
           </button>
         }
       }

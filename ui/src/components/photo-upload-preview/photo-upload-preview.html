@@ -32,7 +32,7 @@
     </mat-form-field>
 
     <div class="area-div">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Obszar</mat-label>
         <mat-select formControlName="parentArea" required>
           @for (parentOption of uploadService.parentAreaDataSource | async; track parentOption) {

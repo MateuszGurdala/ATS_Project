@@ -63,4 +63,8 @@ export class UploadService {
       id: id
     })
   }
+
+  public deletePhoto(id: number) {
+    return this.httpService.deletePhoto(id)
+  }
 }
