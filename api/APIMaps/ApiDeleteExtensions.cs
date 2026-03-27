@@ -32,7 +32,7 @@ public static class ApiDeleteExtensions
 				if (userCreated == null)
 					return Results.Problem();
 
-				userCreated.IsActive = false;
+				userCreated.IsActive = authService.UserAccount.Role.Name == RoleNames.Admin;
 				picture.IsActive = false;
 				picture.UpdatedById = authService.UserAccount.Id;
 				picture.UpdatedOn = DateTime.Now;

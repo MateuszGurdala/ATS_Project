@@ -5,6 +5,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {Location} from '@angular/common';
 import {UserAccountService} from '../../services/user-account-service';
 import {ThemeService} from '../../services/theme-service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -18,6 +19,7 @@ import {ThemeService} from '../../services/theme-service';
 })
 export class Header {
   private readonly location: Location = inject(Location);
+  private readonly router: Router = inject(Router);
 
   public readonly userAccountService: UserAccountService = inject(UserAccountService);
   public readonly themeService: ThemeService = inject(ThemeService);
@@ -39,6 +41,7 @@ export class Header {
   public onLogOut(): void {
     this.userAccountService.logout()
     this.showLoginButton.set(true)
+    this.router.navigate(["/main"]);
   }
 
   public onChangeTheme(): void {
