@@ -1,9 +1,11 @@
-using ATSAPI.Database;
+using ATSAPI.Const;
 using ATSAPI.Database.Entities;
+using ATSAPI.Database;
 using ATSAPI.Extensions;
-using ATSAPI.Models;
 using ATSAPI.Models.DTO;
 using ATSAPI.Models.Responses;
+using ATSAPI.Models;
+using ATSAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +20,7 @@ public static class ApiGetExtensions
 		webApplication.AddGetAreas();
 		webApplication.AddGetUploadOptions();
 		webApplication.AddGetPictureDetails();
+		webApplication.AddGetAdminPanelPictures();
 	}
 
 	private static void AddGetAvailableYears(this WebApplication webApplication) => webApplication.MapGet("/api/available-years",
@@ -33,7 +36,7 @@ public static class ApiGetExtensions
 		.WithName("GetAvailableYears")
 		.WithOpenApi();
 
-	private static void AddGetPictures(this WebApplication webApplication) => webApplication.MapGet("/api/pictures",
+	private static void AddGetPictures(this WebApplication webApplication) => webApplication.MapGet("/api/picture/list",
 			([FromQuery(Name = "year")] int? yearValue, [FromQuery(Name = "area")] string? areaName, IAppDbContext appDbContext) =>
 			{
 				var areaIds = appDbContext.AreaYear
@@ -173,5 +176,41 @@ public static class ApiGetExtensions
 				});
 			})
 			.WithName("GetPictureDetails")
+			.WithOpenApi();
+
+	private static void AddGetAdminPanelPictures(this WebApplication webApplication) =>
+		webApplication.MapGet("/api/picture/admin/list", async (IAppDbContext appDbContext, IAuthService authService) =>
+				{
+					if (!(authService.IsAuthenticated && authService.UserAccount.Role.Name == RoleNames.Admin))
+						return Results.Unauthorized();
+
+					var pictures = await appDbContext.Picture
+						.Include(p => p.Area)
+						.ThenInclude(p => p.AreaYears)
+						.ThenInclude(ay => ay.Year)
+						.Include(ay => ay.Area)
+						.ThenInclude(a => a.Parent)
+						.Include(p => p.UpdatedBy)
+						.OrderByDescending(p => p.UpdatedOn)
+						.Take(10)
+						.AsSplitQuery()
+						.Select(p => new AdminPanelPictureResponse
+						{
+							Id = p.Id,
+							Title = p.Title,
+							Area = p.Area.Name,
+							Description = p.Description,
+							Year = p.Area.AreaYears.First().Year.Value,
+							ParentArea = p.Area.Parent!.Name,
+							UpdatedOn = p.UpdatedOn.ToString("dd/MM/yyyy"),
+							UpdatedBy = p.UpdatedBy.Username,
+							Extension = p.Extension
+						})
+						.ToListAsync();
+
+					return Results.Ok(pictures);
+				}
+			)
+			.WithName("GetAdminPanelPictures")
 			.WithOpenApi();
 }

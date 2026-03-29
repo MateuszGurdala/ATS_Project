@@ -9,6 +9,7 @@ import {UpdatePictureRequest} from '../types/requests/update-picture-request';
 import {UploadOptions} from '../types/responses/upload-options';
 import {UploadPhotoRequest} from '../types/requests/upload-photo-request';
 import {inject, Injectable} from '@angular/core';
+import {AdminPhotoDetails} from '../types/responses/admin-photo-details';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ export class HttpService {
   private readonly areasSubject: BehaviorSubject<boolean> = new BehaviorSubject(true);
   private readonly pictureDetailsSubject: BehaviorSubject<number> = new BehaviorSubject(0);
   private readonly picturesSubject: BehaviorSubject<HttpParams | null> = new BehaviorSubject<HttpParams | null>(null);
+  private readonly adminPicturesSubject: BehaviorSubject<HttpParams | null> = new BehaviorSubject<HttpParams | null>(null);
 
   public readonly yearsDataSource: Observable<number[]> = this.yearsSubject.pipe(
     switchMap((): Observable<number[]> => this.httpClient.get<number[]>(this.apiEndpoint + '/api/available-years')),
@@ -42,7 +44,15 @@ export class HttpService {
 
   public readonly picturesDataSource: Observable<PicturePreview[]> = this.picturesSubject.pipe(
     filter(val => val !== null),
-    switchMap((params: any): Observable<PicturePreview[]> => this.httpClient.get<PicturePreview[]>(this.apiEndpoint + '/api/pictures', {params: params})),
+    switchMap((params: any): Observable<PicturePreview[]> => this.httpClient.get<PicturePreview[]>(this.apiEndpoint + '/api/picture/list', {params: params})),
+    shareReplay(this.replayCount)
+  )
+
+  public readonly adminPicturesDataSource: Observable<AdminPhotoDetails[]> = this.picturesSubject.pipe(
+    switchMap((params: any): Observable<AdminPhotoDetails[]> => this.httpClient.get<AdminPhotoDetails[]>(this.apiEndpoint + '/api/picture/admin/list', {
+      params: params,
+      headers: new HttpHeaders().append('Authorization', localStorage.getItem("token")!)
+    })),
     shareReplay(this.replayCount)
   )
 
@@ -64,6 +74,10 @@ export class HttpService {
 
   public getPictures(params: HttpParams | null): void {
     if (!!params) this.picturesSubject.next(params);
+  }
+
+  public getAdminPictures(params: HttpParams | null): void {
+    this.adminPicturesSubject.next(params);
   }
 
   public getPictureDetails(id: number): void {

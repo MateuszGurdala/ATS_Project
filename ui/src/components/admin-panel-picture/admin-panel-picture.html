@@ -1,0 +1,35 @@
+<form [formGroup]="details">
+  <mat-form-field appearance="outline">
+    <mat-label>Tytuł</mat-label>
+    <input formControlName="title" [readonly]="true" matInput>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Rok</mat-label>
+    <input formControlName="year" [readonly]="true" matInput>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Obszar</mat-label>
+    <input formControlName="parentArea" [readonly]="true" matInput>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Miejsce</mat-label>
+    <input formControlName="area" [readonly]="true" matInput>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Dodał</mat-label>
+    <input formControlName="updatedBy" [readonly]="true" matInput>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Dnia</mat-label>
+    <input formControlName="updatedOn" [readonly]="true" matInput>
+  </mat-form-field>
+  <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
+    <mat-label>Opis</mat-label>
+    <input formControlName="description" [readonly]="true" matInput>
+  </mat-form-field>
+</form>
+<div></div>
+<a href="/picture/{{adminPictureDetails()!.id}}">
+  <img
+    src="http://localhost:10000/devstoreaccount1/pictures/{{adminPictureDetails()!.id}}.{{adminPictureDetails()!.extension}}?sv=2018-03-28&spr=https%2Chttp&st=2026-03-15T14%3A58%3A41Z&se=2026-06-30T13%3A58%3A00Z&sr=c&sp=rl&sig=BJy%2BAOAFsvvelX%2FP94K0vQdZK5tZoZjg4c3ToyV69H4%3D">
+</a>

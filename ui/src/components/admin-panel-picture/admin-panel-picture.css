@@ -1,0 +1,28 @@
+:host {
+  width: 96%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 40% 2% 58%;
+  grid-template-rows: 100%;
+  margin: auto;
+}
+
+img {
+  object-fit: contain;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(4, 1fr);
+  padding: 3%;
+  width: 94%;
+  height: 94%;
+  margin: auto;
+  background: var(--main-gradient);
+  border-radius: 24px;
+  box-shadow: var(--grey-shadow) 0px 6px 12px -2px, var(--grey-shadow) 0px 3px 7px -3px;
+}

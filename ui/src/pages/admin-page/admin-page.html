@@ -1,0 +1,3 @@
+@for (picture of httpService.adminPicturesDataSource | async; track picture.id) {
+  <app-admin-panel-picture [adminPictureDetails]="picture"/>
+}

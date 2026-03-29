@@ -7,6 +7,9 @@ import {pictureResolver} from '../resolvers/picture-resolver';
 import {routeGuard} from '../guards/route-guard';
 import {uploadOptionsResolver} from '../resolvers/upload-options-resolver';
 import {pictureDetailsResolver} from '../resolvers/picture-details-resolver';
+import {AdminPage} from '../pages/admin-page/admin-page';
+import {adminGuard} from '../guards/admin-guard';
+import {adminPictureResolver} from '../resolvers/admin-picture-resolver';
 
 export const routes: Routes = [
   {
@@ -38,6 +41,15 @@ export const routes: Routes = [
     path: 'login',
     component: LoginPage,
     title: "Zaloguj się"
+  },
+  {
+    path: 'admin',
+    component: AdminPage,
+    title: "Panel",
+    canActivate: [adminGuard],
+    resolve: {
+      picture: adminPictureResolver
+    }
   },
   {
     path: '**',

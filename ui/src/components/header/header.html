@@ -28,6 +28,14 @@
         Dodaj Zdjęcia
       </button>
     </a>
+    @if (userAccountService.isAdmin()) {
+      <a href="/admin">
+        <button matButton
+                aria-label="Example icon button with a vertical three dot icon">
+          Panel Administratora
+        </button>
+      </a>
+    }
     <button matButton
             (click)="onLogOut()"
             aria-label="Example icon button with a vertical three dot icon">

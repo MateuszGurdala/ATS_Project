@@ -1,0 +1,11 @@
+:host {
+  --mat-form-field-subscript-text-line-height: 0px;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex-direction: column;
+  gap: 2% 0%;
+  height: 100%;
+  overflow-y: auto;
+  width: 100%;
+}
