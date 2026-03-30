@@ -1,5 +1,6 @@
-import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {Component, inject} from '@angular/core';
+import {Config} from '../../app/config';
 import {PictureDetails} from '../../components/picture-details/picture-details';
 
 @Component({
@@ -12,6 +13,7 @@ import {PictureDetails} from '../../components/picture-details/picture-details';
 })
 export class PhotoPage {
   private activatedRoute = inject(ActivatedRoute);
+  protected readonly Config = Config;
   public pictureId: number;
 
   constructor() {

@@ -3,6 +3,7 @@ import {Component, input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatFormField} from '@angular/material/form-field';
 import {MatInput, MatLabel} from '@angular/material/input';
+import {Config} from '../../app/config';
 
 @Component({
   selector: 'app-admin-panel-picture',
@@ -16,6 +17,8 @@ import {MatInput, MatLabel} from '@angular/material/input';
   styleUrl: './admin-panel-picture.css',
 })
 export class AdminPanelPicture implements OnInit{
+  protected readonly Config: typeof Config = Config;
+
   public adminPictureDetails = input<AdminPhotoDetails>()
 
   public readonly details = new FormGroup({
@@ -33,4 +36,5 @@ export class AdminPanelPicture implements OnInit{
   ngOnInit(): void {
     this.details.setValue(<any>this.adminPictureDetails());
   }
+
 }

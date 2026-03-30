@@ -1,5 +1,6 @@
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {Config} from '../app/config';
 import {HttpService} from './http-service';
 import {Router} from '@angular/router';
 import {inject, Injectable} from '@angular/core';
@@ -14,7 +15,7 @@ export class UserAccountService {
   public readonly isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor() {
-    const storageToken = localStorage.getItem("token")
+    const storageToken = localStorage.getItem(Config.LOCAL_STORAGE.TOKEN)
 
     if (!!storageToken) {
       this.isAuthenticated.next(true);
@@ -36,17 +37,17 @@ export class UserAccountService {
   }
 
   public isAdmin(): boolean {
-    return this.isAuthenticated.value && JSON.parse(localStorage.getItem("token") ?? "").payload.rolename === "Admin";
+    return this.isAuthenticated.value && JSON.parse(localStorage.getItem(Config.LOCAL_STORAGE.TOKEN) ?? "").payload.rolename === "Admin";
   }
 
   public login(token: any): void {
-    localStorage.setItem("token", JSON.stringify(token))
+    localStorage.setItem(Config.LOCAL_STORAGE.TOKEN, JSON.stringify(token))
     this.isAuthenticated.next(true);
     this.router.navigate(["/main"])
   }
 
   public logout(): void {
-    localStorage.removeItem("token");
+    localStorage.removeItem(Config.LOCAL_STORAGE.TOKEN);
     this.isAuthenticated.next(false);
   }
 

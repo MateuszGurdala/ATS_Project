@@ -9,10 +9,9 @@ import {MatIcon} from '@angular/material/icon';
 import {MatInput, MatLabel} from '@angular/material/input';
 import {MatSelect} from '@angular/material/select';
 import {PhotoDetails} from '../../types/requests/upload-photo-request';
+import {ToastrService} from 'ngx-toastr';
 import {UploadService} from '../../services/upload-service';
 import {UserAccountService} from '../../services/user-account-service';
-import {ToastrService} from 'ngx-toastr';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-picture-details',

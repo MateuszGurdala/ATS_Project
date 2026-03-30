@@ -1,11 +1,11 @@
 import {Component, inject, signal, WritableSignal} from '@angular/core';
+import {Location} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
-import {Location} from '@angular/common';
-import {UserAccountService} from '../../services/user-account-service';
-import {ThemeService} from '../../services/theme-service';
 import {Router} from '@angular/router';
+import {ThemeService} from '../../services/theme-service';
+import {UserAccountService} from '../../services/user-account-service';
 
 @Component({
   selector: 'app-header',

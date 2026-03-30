@@ -1,26 +1,28 @@
 :root {
+  scrollbar-color: var(--accent);
+  user-select: none;
+
   --header-height: 10vh;
   --footer-height: 7vh;
 
-  --main: #dee2e6;
-  --main-tint: #f1f3f5;
+  --accent-tint: #66d9e8;
+  --accent: #22b8cf;
+  --grey-shadow: #888;
+  --grey: #333;
   --main-shade: #adb5bd;
+  --main-tint: #f1f3f5;
+  --main: #dee2e6;
+
   --main-gradient: linear-gradient(
     180deg,
     var(--main-tint) 30%,
     var(--main) 80%
   );
-
-  --accent: #22b8cf;
-  --accent-tint: #66d9e8;
   --accent-gradient: linear-gradient(
     180deg,
     var(--accent-tint) 30%,
     var(--accent) 80%
   );
-
-  --grey: #333;
-  --grey-shadow: #888;
 
   --box-shadow: var(--grey-shadow) 0px 2px 5px -1px, var(--grey-shadow) 0px 1px 3px -1px;
 
@@ -33,9 +35,6 @@
   --mat-select-enabled-trigger-text-color: var(--grey);
   --mat-option-label-text-color: var(--grey);
   --mat-form-field-filled-container-color: transparent;
-
-  scrollbar-color: var(--accent);
-  user-select: none;
 }
 
 a {

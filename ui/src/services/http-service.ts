@@ -1,4 +1,6 @@
+import {AdminPhotoDetails} from '../types/responses/admin-photo-details';
 import {BehaviorSubject, filter, Observable, shareReplay, switchMap, tap} from 'rxjs';
+import {Config} from '../app/config';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {LoginRequest} from '../types/requests/login-request';
 import {PictureDetailsResponse} from '../types/responses/picture-details-response';
@@ -9,7 +11,6 @@ import {UpdatePictureRequest} from '../types/requests/update-picture-request';
 import {UploadOptions} from '../types/responses/upload-options';
 import {UploadPhotoRequest} from '../types/requests/upload-photo-request';
 import {inject, Injectable} from '@angular/core';
-import {AdminPhotoDetails} from '../types/responses/admin-photo-details';
 
 @Injectable({
   providedIn: 'root',
@@ -17,47 +18,47 @@ import {AdminPhotoDetails} from '../types/responses/admin-photo-details';
 export class HttpService {
   private readonly httpClient: HttpClient = inject(HttpClient);
 
-  private readonly apiEndpoint: string = 'https://localhost:7057';
+  private readonly apiEndpoint: string = Config.API.ENDPOINT + Config.API.PREFIX;
   private readonly replayCount: number = 3;
 
-  private readonly yearsSubject: BehaviorSubject<boolean> = new BehaviorSubject(true);
-  private readonly optionsSubject: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  private readonly adminPicturesSubject: BehaviorSubject<HttpParams | null> = new BehaviorSubject<HttpParams | null>(null);
   private readonly areasSubject: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  private readonly optionsSubject: BehaviorSubject<boolean> = new BehaviorSubject(true);
   private readonly pictureDetailsSubject: BehaviorSubject<number> = new BehaviorSubject(0);
   private readonly picturesSubject: BehaviorSubject<HttpParams | null> = new BehaviorSubject<HttpParams | null>(null);
-  private readonly adminPicturesSubject: BehaviorSubject<HttpParams | null> = new BehaviorSubject<HttpParams | null>(null);
+  private readonly yearsSubject: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   public readonly yearsDataSource: Observable<number[]> = this.yearsSubject.pipe(
-    switchMap((): Observable<number[]> => this.httpClient.get<number[]>(this.apiEndpoint + '/api/year/list')),
+    switchMap((): Observable<number[]> => this.httpClient.get<number[]>(this.apiEndpoint + Config.API.PATHS.GET.YEARS)),
     shareReplay(this.replayCount)
   )
 
   public readonly optionsDataSource: Observable<UploadOptions> = this.optionsSubject.pipe(
-    switchMap((): Observable<UploadOptions> => this.httpClient.get<UploadOptions>(this.apiEndpoint + '/api/picture/options')),
+    switchMap((): Observable<UploadOptions> => this.httpClient.get<UploadOptions>(this.apiEndpoint + Config.API.PATHS.GET.OPTIONS)),
     shareReplay(this.replayCount)
   )
 
   public readonly areasDataSource: Observable<{ [p: number]: TreeNode[] }> = this.areasSubject.pipe(
-    switchMap((): Observable<{ [p: number]: TreeNode[] }> => this.httpClient.get<{ [p: number]: TreeNode[] }>(this.apiEndpoint + '/api/area/list')),
+    switchMap((): Observable<{ [p: number]: TreeNode[] }> => this.httpClient.get<{ [p: number]: TreeNode[] }>(this.apiEndpoint + Config.API.PATHS.GET.AREAS)),
     shareReplay(this.replayCount)
   )
 
   public readonly picturesDataSource: Observable<PicturePreview[]> = this.picturesSubject.pipe(
     filter(val => val !== null),
-    switchMap((params: any): Observable<PicturePreview[]> => this.httpClient.get<PicturePreview[]>(this.apiEndpoint + '/api/picture/list', {params: params})),
+    switchMap((params: any): Observable<PicturePreview[]> => this.httpClient.get<PicturePreview[]>(this.apiEndpoint + Config.API.PATHS.GET.PICTURES, {params: params})),
     shareReplay(this.replayCount)
   )
 
   public readonly adminPicturesDataSource: Observable<AdminPhotoDetails[]> = this.picturesSubject.pipe(
-    switchMap((params: any): Observable<AdminPhotoDetails[]> => this.httpClient.get<AdminPhotoDetails[]>(this.apiEndpoint + '/api/picture/admin/list', {
+    switchMap((params: any): Observable<AdminPhotoDetails[]> => this.httpClient.get<AdminPhotoDetails[]>(this.apiEndpoint + Config.API.PATHS.GET.PICTURES_ADMIN, {
       params: params,
-      headers: new HttpHeaders().append('Authorization', localStorage.getItem("token")!)
+      headers: new HttpHeaders().append('Authorization', localStorage.getItem(Config.LOCAL_STORAGE.TOKEN)!)
     })),
     shareReplay(this.replayCount)
   )
 
   public readonly pictureDetailsDataSource: Observable<PictureDetailsResponse> = this.pictureDetailsSubject.pipe(
-    switchMap((id: any): Observable<PictureDetailsResponse> => this.httpClient.get<PictureDetailsResponse>(this.apiEndpoint + '/api/picture/' + id))
+    switchMap((id: any): Observable<PictureDetailsResponse> => this.httpClient.get<PictureDetailsResponse>(this.apiEndpoint + Config.API.PATHS.GET.PICTURE_DETAILS + id))
   )
 
   public getAvailableYears(): void {
@@ -85,11 +86,11 @@ export class HttpService {
   }
 
   public postRegisterUserAccount(request: RegisterUserAccountRequest): Observable<any> {
-    return this.httpClient.post<any>(this.apiEndpoint + '/api/account/register', request);
+    return this.httpClient.post<any>(this.apiEndpoint + Config.API.PATHS.POST.REGISTER, request);
   }
 
   public postLogin(request: LoginRequest): Observable<any> {
-    return this.httpClient.post<any>(this.apiEndpoint + '/api/account/login', request);
+    return this.httpClient.post<any>(this.apiEndpoint + Config.API.PATHS.POST.LOGIN, request);
   }
 
   public postUploadPhoto(request: UploadPhotoRequest): Observable<any> {
@@ -98,24 +99,24 @@ export class HttpService {
     formData.append("photoDetails", JSON.stringify(request.photoDetails));
 
     return this.httpClient.post<any>(
-      this.apiEndpoint + '/api/picture/upload',
+      this.apiEndpoint + Config.API.PATHS.POST.UPLOAD_PICTURE,
       formData,
-      {headers: new HttpHeaders().append('Authorization', localStorage.getItem("token")!)}
+      {headers: new HttpHeaders().append('Authorization', localStorage.getItem(Config.LOCAL_STORAGE.TOKEN)!)}
     );
   }
 
   public putUpdatePhoto(request: UpdatePictureRequest): Observable<any> {
     return this.httpClient.put<any>(
-      this.apiEndpoint + '/api/picture/update',
+      this.apiEndpoint + Config.API.PATHS.PUT.UPDATE_PICTURE,
       request,
-      {headers: new HttpHeaders().append('Authorization', localStorage.getItem("token")!)}
+      {headers: new HttpHeaders().append('Authorization', localStorage.getItem(Config.LOCAL_STORAGE.TOKEN)!)}
     );
   }
 
   public deletePhoto(id: number): Observable<any> {
     return this.httpClient.delete<any>(
-      this.apiEndpoint + '/api/picture/delete/' + id,
-      {headers: new HttpHeaders().append('Authorization', localStorage.getItem("token")!)}
+      this.apiEndpoint + Config.API.PATHS.DELETE.PICTURE + id,
+      {headers: new HttpHeaders().append('Authorization', localStorage.getItem(Config.LOCAL_STORAGE.TOKEN)!)}
     )
   }
 }

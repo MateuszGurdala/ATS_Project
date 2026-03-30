@@ -1,5 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {SearchService} from '../../services/search-service';
+import {Config} from "../../app/config";
 
 @Component({
   selector: 'app-picture-grid',
@@ -9,4 +10,5 @@ import {SearchService} from '../../services/search-service';
 })
 export class PictureGrid {
   public searchService: SearchService = inject(SearchService);
+    protected readonly Config = Config;
 }

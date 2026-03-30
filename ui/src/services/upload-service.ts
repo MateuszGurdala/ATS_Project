@@ -1,9 +1,9 @@
 import {BehaviorSubject} from 'rxjs';
 import {HttpService} from './http-service';
 import {PhotoDetails} from '../types/requests/upload-photo-request';
+import {ToastrService} from 'ngx-toastr';
 import {UploadOptions} from '../types/responses/upload-options';
 import {inject, Injectable, signal, WritableSignal} from '@angular/core';
-import {ToastrService} from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -12,10 +12,10 @@ export class UploadService {
   private readonly httpService: HttpService = inject(HttpService);
   private readonly toastrService: ToastrService = inject(ToastrService);
 
-  public readonly yearDataSource: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
   public readonly areaDataSource: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
   public readonly parentAreaDataSource: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
   public readonly pictureDataSource: BehaviorSubject<File[]> = new BehaviorSubject<File[]>([]);
+  public readonly yearDataSource: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
 
   public readonly hasUploadedPictures: WritableSignal<boolean> = signal(false);
 

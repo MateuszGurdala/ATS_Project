@@ -1,9 +1,8 @@
-import {Component, inject, signal} from '@angular/core';
-import {Header} from '../components/header/header';
+import {Component, signal} from '@angular/core';
 import {Footer} from '../components/footer/footer';
+import {Header} from '../components/header/header';
 import {MainPage} from '../pages/main-page/main-page';
 import {RouterOutlet} from '@angular/router';
-import {HttpService} from '../services/http-service';
 
 @Component({
   selector: 'app-root',
@@ -13,5 +12,4 @@ import {HttpService} from '../services/http-service';
 })
 export class App {
   protected readonly title = signal('ui');
-  private readonly httpHandle: HttpService = inject(HttpService);
 }

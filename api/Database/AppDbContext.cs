@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ATSAPI.Database;
 
-public class AppDbContext : DbContext, IAppDbContext
+public class AppDbContext(IConfiguration configuration) : DbContext, IAppDbContext
 {
 	public DbSet<Area> Area { get; set; }
 	public DbSet<AreaYear> AreaYear { get; set; }
@@ -14,8 +14,7 @@ public class AppDbContext : DbContext, IAppDbContext
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
-		optionsBuilder.UseSqlServer(
-			@"Data Source=localhost;Database=CommunityApp;User ID=sa;Password=testPASS123;Pooling=False;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Authentication=SqlPassword;Application Name=vscode-mssql;Application Intent=ReadWrite;Command Timeout=30");
+		optionsBuilder.UseSqlServer(configuration.GetValue<string>("Database:ConnectionString"));
 	}
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
