@@ -20,18 +20,18 @@
   <form [formGroup]="detailsForm">
     <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
       <mat-label>Tytuł</mat-label>
-      <input [readonly]="isReadonly()" formControlName="title" matInput placeholder="Wpisz tytuł">
+      <input [readonly]="isReadonly()" formControlName="title" matInput placeholder="Wpisz tytuł" aria-label="input-title">
     </mat-form-field>
 
     @if (isReadonly()) {
       <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
         <mat-label>Obszar</mat-label>
-        <input [readonly]="isReadonly()" formControlName="parentArea" matInput placeholder="Wpisz obszar">
+        <input [readonly]="isReadonly()" formControlName="parentArea" matInput placeholder="Wpisz obszar" aria-label="input-parent-area">
       </mat-form-field>
     } @else {
       <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
         <mat-label>Obszar</mat-label>
-        <mat-select formControlName="parentArea" required>
+        <mat-select formControlName="parentArea" required aria-label="select-parent-area">
           @for (parentOption of uploadService.parentAreaDataSource | async; track parentOption) {
             <mat-option [value]="parentOption">{{ parentOption }}</mat-option>
           }
@@ -46,7 +46,7 @@
       <mat-label>Miejsce</mat-label>
       <input type="text"
              placeholder="Wybierz lub wpisz miejsce"
-             aria-label="Miejsce"
+             aria-label="input-area"
              matInput
              formControlName="area"
              [readonly]="isReadonly()"
@@ -65,7 +65,7 @@
       <mat-label>Rok</mat-label>
       <input type="number"
              placeholder="Wybierz lub wpisz rok"
-             aria-label="Rok"
+             aria-label="input-year"
              matInput
              formControlName="year"
              [readonly]="isReadonly()"
@@ -86,51 +86,51 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Dodał</mat-label>
-      <input [readonly]="true" formControlName="createdBy" matInput placeholder="Wpisz obszar">
+      <input [readonly]="true" formControlName="createdBy" matInput placeholder="Wpisz obszar" aria-label="input-created-by">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Dnia</mat-label>
-      <input [readonly]="true" formControlName="createdOn" matInput placeholder="Wpisz obszar">
+      <input [readonly]="true" formControlName="createdOn" matInput placeholder="Wpisz obszar" aria-label="input-created-on">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Edytował</mat-label>
-      <input [readonly]="true" formControlName="updatedBy" matInput placeholder="Wpisz obszar">
+      <input [readonly]="true" formControlName="updatedBy" matInput placeholder="Wpisz obszar" aria-label="input-updated-by">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Dnia</mat-label>
-      <input [readonly]="true" formControlName="updatedOn" matInput placeholder="Wpisz obszar">
+      <input [readonly]="true" formControlName="updatedOn" matInput placeholder="Wpisz obszar" aria-label="input-updated-on">
     </mat-form-field>
 
     <mat-form-field style="grid-column: 1 / span 2; grid-row: 7 / span 2" appearance="outline">
       <mat-label>Opis</mat-label>
-      <input [readonly]="isReadonly()" formControlName="description" matInput>
+      <input [readonly]="isReadonly()" formControlName="description" matInput aria-label="input-description">
     </mat-form-field>
 
     @if (userAccountService.isAuthenticated.value) {
       @switch (editMode()) {
         @case ("edit") {
           @if (userAccountService.isAdmin()) {
-            <button matFab extended style="grid-column: 1" (click)="onStartDelete()">
+            <button matFab extended style="grid-column: 1" (click)="onStartDelete()" aria-label="button-start-delete">
               <mat-icon>delete</mat-icon>
               Usuń
             </button>
           }
-          <button matFab extended style="grid-column: 2" (click)="onStartEdit()">
+          <button matFab extended style="grid-column: 2" (click)="onStartEdit()" aria-label="button-start-edit">
             <mat-icon>edit</mat-icon>
             Edytuj
           </button>
         }
         @case ("save") {
-          <button matFab extended style="grid-column: 2" (click)="onSave()">
+          <button matFab extended style="grid-column: 2" (click)="onSave()" aria-label="button-save">
             <mat-icon>save</mat-icon>
             Zapisz
           </button>
         }
         @case ("delete") {
-          <button matFab extended style="grid-column: 1 / span 2" (click)="onDelete()">
+          <button matFab extended style="grid-column: 1 / span 2" (click)="onDelete()" aria-label="button-confirm-delete">
             <mat-icon>delete_forever</mat-icon>
             Potwierdź
           </button>

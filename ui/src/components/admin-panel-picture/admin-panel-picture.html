@@ -1,34 +1,37 @@
 <form [formGroup]="details">
   <mat-form-field appearance="outline">
     <mat-label>Tytuł</mat-label>
-    <input formControlName="title" [readonly]="true" matInput>
+    <input formControlName="title" [readonly]="true" matInput aria-label="input-title">
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Rok</mat-label>
-    <input formControlName="year" [readonly]="true" matInput>
+    <input formControlName="year" [readonly]="true" matInput aria-label="input-year">
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Obszar</mat-label>
-    <input formControlName="parentArea" [readonly]="true" matInput>
+    <input formControlName="parentArea" [readonly]="true" matInput aria-label="input-parent-area">
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Miejsce</mat-label>
-    <input formControlName="area" [readonly]="true" matInput>
+    <input formControlName="area" [readonly]="true" matInput aria-label="input-area">
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Dodał</mat-label>
-    <input formControlName="updatedBy" [readonly]="true" matInput>
+    <input formControlName="updatedBy" [readonly]="true" matInput aria-label="input-created-by">
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Dnia</mat-label>
-    <input formControlName="updatedOn" [readonly]="true" matInput>
+    <input formControlName="updatedOn" [readonly]="true" matInput aria-label="input-created-on">
   </mat-form-field>
   <mat-form-field style="grid-column: 1 / span 2" appearance="outline">
     <mat-label>Opis</mat-label>
-    <input formControlName="description" [readonly]="true" matInput>
+    <input formControlName="description" [readonly]="true" matInput aria-label="input-description">
   </mat-form-field>
 </form>
 <div></div>
 <a href="/picture/{{adminPictureDetails()!.id}}">
-  <img src="{{Config.IMAGE.URL}}{{adminPictureDetails()!.id}}.{{adminPictureDetails()!.extension}}?{{Config.IMAGE.TOKEN}}">
+  <img
+    src="{{Config.IMAGE.URL}}{{adminPictureDetails()!.id}}.{{adminPictureDetails()!.extension}}?{{Config.IMAGE.TOKEN}}"
+    alt="{{adminPictureDetails()!.id}}.{{adminPictureDetails()!.extension}}"
+  >
 </a>

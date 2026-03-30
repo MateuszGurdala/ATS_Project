@@ -5,26 +5,30 @@
 @if (searchService.selectedYear() != searchService.minYear()) {
   <button style="grid-column: 1"
           matIconButton
-          (click)="searchService.changeYear('prev')">
+          (click)="searchService.changeYear('prev')"
+          aria-label="button-previous-year">
     <mat-icon>arrow_backward</mat-icon>
   </button>
 }
 
 <button style="grid-column: 2"
         [disabled]="searchService.selectedYear() == searchService.minYear()"
-        matButton (click)="searchService.setYearToMin()">
+        matButton (click)="searchService.setYearToMin()"
+        aria-label="button-min-year">
   {{ searchService.minYear() }}
 </button>
 <button style="grid-column: 3"
         matButton
         [disabled]="searchService.selectedYear() == searchService.maxYear()"
-        (click)="searchService.setYearToMax()">
+        (click)="searchService.setYearToMax()"
+        aria-label="button-max-year">
   {{ searchService.maxYear() }}
 </button>
 @if (searchService.selectedYear() != searchService.maxYear()) {
   <button style="grid-column: 4"
           matIconButton
-          (click)="searchService.changeYear('next')">
+          (click)="searchService.changeYear('next')"
+          aria-label="button-next-year">
     <mat-icon>arrow_forward</mat-icon>
   </button>
 }

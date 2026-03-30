@@ -2,7 +2,8 @@
   <a href="/picture/{{picture.id}}">
     <img
       src="{{Config.IMAGE.URL}}{{picture.id}}.{{picture.extension}}?{{Config.IMAGE.TOKEN}}"
-      alt="{{picture.id}}"/>
+      alt="{{picture.id}}"
+      aria-label="img-preview"/>
   </a>
 } @empty {
 }

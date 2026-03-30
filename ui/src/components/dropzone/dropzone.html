@@ -1,8 +1,9 @@
 <div class="dropzone"
      (click)="fileInput.click()"
      (drop)="onFileUpload($event)"
-     (dragover)="onDragOver($event)">
-  <input #fileInput type="file" (change)="onFileUpload($event)" multiple accept="image/*">
+     (dragover)="onDragOver($event)"
+     aria-label="input-picture-upload">
+  <input #fileInput type="file" (change)="onFileUpload($event)" multiple accept="image/*" aria-label="picture-upload-dropzone">
   <mat-icon>add</mat-icon>
   <h1>Dodaj zdjęcia</h1>
 </div>

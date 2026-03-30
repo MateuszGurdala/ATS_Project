@@ -1,44 +1,44 @@
 <div>
-  <a href="/main" class="main-text">
+  <a href="/main" class="main-text" aria-label="href-main-page">
     <h1>Nasz Ursynów</h1>
   </a>
   @switch (themeService.theme()) {
     @case ('default') {
-      <mat-icon (click)="onChangeTheme()">brightness_7</mat-icon>
+      <mat-icon (click)="onChangeTheme()" aria-label="button-dark-theme">brightness_7</mat-icon>
     }
     @case ('dark') {
-      <mat-icon (click)="onChangeTheme()">dark_mode</mat-icon>
+      <mat-icon (click)="onChangeTheme()" aria-label="button-contrast-theme">dark_mode</mat-icon>
     }
     @case ('contrast') {
-      <mat-icon (click)="onChangeTheme()">contrast</mat-icon>
+      <mat-icon (click)="onChangeTheme()" aria-label="button-light-theme">contrast</mat-icon>
     }
   }
 
   @if (showLoginButton()) {
-    <a href="/login" class="login-btn">
+    <a href="/login" class="login-btn" aria-label="href-login-page">
       <button matButton
-              aria-label="Example icon button with a vertical three dot icon">
+              aria-label="button-login">
         Twoje Konto
       </button>
     </a>
   } @else if (userAccountService.isAuthenticated.value) {
-    <a href="/upload" class="add-pct-btn">
+    <a href="/upload" class="add-pct-btn" aria-label="href-upload-page">
       <button matButton
-              aria-label="Example icon button with a vertical three dot icon">
+              aria-label="button-upload-page">
         Dodaj Zdjęcia
       </button>
     </a>
     @if (userAccountService.isAdmin()) {
-      <a href="/admin">
+      <a href="/admin" aria-label="href-admin-page">
         <button matButton
-                aria-label="Example icon button with a vertical three dot icon">
+                aria-label="button-admin-page">
           Panel Administratora
         </button>
       </a>
     }
     <button matButton
             (click)="onLogOut()"
-            aria-label="Example icon button with a vertical three dot icon">
+            aria-label="button-logout">
       Wyloguj Się
     </button>
   }

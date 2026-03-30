@@ -2,7 +2,7 @@
   <form [formGroup]="uploadForm">
     <mat-form-field appearance="outline">
       <mat-label>Tytuł</mat-label>
-      <input formControlName="title" matInput placeholder="Wpisz tytuł">
+      <input formControlName="title" matInput placeholder="Wpisz tytuł" aria-label="input-title">
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
       @if (uploadForm.controls['title'].hasError('required')) {
         <mat-error>Pole nie może być puste</mat-error>
@@ -13,7 +13,7 @@
       <mat-label>Rok</mat-label>
       <input type="number"
              placeholder="Wybierz lub wpisz rok"
-             aria-label="Rok"
+             aria-label="input-year"
              matInput
              formControlName="year"
              [matAutocomplete]="yearAuto">
@@ -34,7 +34,7 @@
     <div class="area-div">
       <mat-form-field appearance="outline">
         <mat-label>Obszar</mat-label>
-        <mat-select formControlName="parentArea" required>
+        <mat-select formControlName="parentArea" required aria-label="select-parent-area">
           @for (parentOption of uploadService.parentAreaDataSource | async; track parentOption) {
             <mat-option [value]="parentOption">{{ parentOption }}</mat-option>
           }
@@ -48,7 +48,7 @@
         <mat-label>Miejsce</mat-label>
         <input type="text"
                placeholder="Wybierz lub wpisz miejsce"
-               aria-label="Miejsce"
+               aria-label="input-area"
                matInput
                formControlName="area"
                [matAutocomplete]="areaAuto">
@@ -66,12 +66,13 @@
     <div class="lower-div">
       <mat-form-field appearance="outline">
         <mat-label>Opis</mat-label>
-        <input formControlName="description" matInput placeholder="Dodaj opis">
+        <input formControlName="description" matInput placeholder="Dodaj opis"   aria-label="input-description">
         <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
       </mat-form-field>
 
       <button [disabled]="!uploadForm.valid" matFab extended
-              (click)="onPhotoUpload()">
+              (click)="onPhotoUpload()"
+              aria-label="button-upload">
         <mat-icon>upload_file</mat-icon>
         Zapisz
       </button>
@@ -79,4 +80,4 @@
   </form>
 </div>
 
-<img [src]="picturePreview()" alt="Photo preview">
+<img [src]="picturePreview()" alt="Photo preview" aria-label="img-preview">
