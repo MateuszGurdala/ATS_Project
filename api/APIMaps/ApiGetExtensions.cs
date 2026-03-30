@@ -23,7 +23,7 @@ public static class ApiGetExtensions
 		webApplication.AddGetAdminPanelPictures();
 	}
 
-	private static void AddGetAvailableYears(this WebApplication webApplication) => webApplication.MapGet("/api/available-years",
+	private static void AddGetAvailableYears(this WebApplication webApplication) => webApplication.MapGet("/api/year/list",
 			(IAppDbContext appDbContext) => appDbContext.Year
 				.Include(y => y.AreaYears)
 				.ThenInclude(ay => ay.Area)
@@ -66,7 +66,7 @@ public static class ApiGetExtensions
 		.WithName("GetPictures")
 		.WithOpenApi();
 
-	private static void AddGetAreas(this WebApplication webApplication) => webApplication.MapGet("/api/areas", async (IAppDbContext appDbContext) =>
+	private static void AddGetAreas(this WebApplication webApplication) => webApplication.MapGet("/api/area/list", async (IAppDbContext appDbContext) =>
 			{
 				var dictionary = new Dictionary<int, List<TreeNode>>();
 
@@ -109,7 +109,7 @@ public static class ApiGetExtensions
 		.WithOpenApi();
 
 	private static void AddGetUploadOptions(this WebApplication webApplication) =>
-		webApplication.MapGet("/api/upload-options", async (IAppDbContext appDbContext) =>
+		webApplication.MapGet("/api/picture/options", async (IAppDbContext appDbContext) =>
 			{
 				var years = await appDbContext.Year
 					.OrderByDescending(y => y.Value)

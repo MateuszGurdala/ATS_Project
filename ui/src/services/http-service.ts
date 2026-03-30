@@ -28,17 +28,17 @@ export class HttpService {
   private readonly adminPicturesSubject: BehaviorSubject<HttpParams | null> = new BehaviorSubject<HttpParams | null>(null);
 
   public readonly yearsDataSource: Observable<number[]> = this.yearsSubject.pipe(
-    switchMap((): Observable<number[]> => this.httpClient.get<number[]>(this.apiEndpoint + '/api/available-years')),
+    switchMap((): Observable<number[]> => this.httpClient.get<number[]>(this.apiEndpoint + '/api/year/list')),
     shareReplay(this.replayCount)
   )
 
   public readonly optionsDataSource: Observable<UploadOptions> = this.optionsSubject.pipe(
-    switchMap((): Observable<UploadOptions> => this.httpClient.get<UploadOptions>(this.apiEndpoint + '/api/upload-options')),
+    switchMap((): Observable<UploadOptions> => this.httpClient.get<UploadOptions>(this.apiEndpoint + '/api/picture/options')),
     shareReplay(this.replayCount)
   )
 
   public readonly areasDataSource: Observable<{ [p: number]: TreeNode[] }> = this.areasSubject.pipe(
-    switchMap((): Observable<{ [p: number]: TreeNode[] }> => this.httpClient.get<{ [p: number]: TreeNode[] }>(this.apiEndpoint + '/api/areas')),
+    switchMap((): Observable<{ [p: number]: TreeNode[] }> => this.httpClient.get<{ [p: number]: TreeNode[] }>(this.apiEndpoint + '/api/area/list')),
     shareReplay(this.replayCount)
   )
 
