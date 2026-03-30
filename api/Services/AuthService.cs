@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ATSAPI.Services;
 
-public class AuthService(IAppDbContext appDbContext) : IAuthService
+public class AuthService(IAppDbContext appDbContext, IConfiguration configuration) : IAuthService
 {
 	public bool IsAuthenticated { get; private set; } = false;
 	public UserAccount UserAccount { get; private set; }
@@ -22,6 +22,9 @@ public class AuthService(IAppDbContext appDbContext) : IAuthService
 
 		var payloadJson = JsonSerializer.Deserialize<JwtAuthPayload>(payload.ToString()!);
 		if (payloadJson == null)
+			return;
+
+		if (payloadJson.Signature != CreateSignature(payloadJson.UserId, payloadJson.RoleId))
 			return;
 
 		var user = appDbContext.UserAccount
@@ -44,16 +47,21 @@ public class AuthService(IAppDbContext appDbContext) : IAuthService
 				new Claim(JwtRegisteredClaimNames.Sub, userAccount.Username),
 				new Claim("roleid", userAccount.RoleID.ToString()),
 				new Claim("rolename", userAccount.Role.Name),
-				new Claim("usrid", userAccount.Id.ToString())
+				new Claim("usrid", userAccount.Id.ToString()),
+				new Claim("sig", CreateSignature(userAccount.Id.ToString(), userAccount.RoleID.ToString()))
 			],
 			expires: DateTime.UtcNow.AddMinutes(10)
 		);
+
+	private string CreateSignature(string userId, string roleId) =>
+		Utils.Utils.GetSHA512(string.Join('_', userId, roleId, configuration.GetValue<string>("JWT:Secret")));
 
 	private class JwtAuthPayload
 	{
 		[JsonPropertyName("roleid")] public string RoleId { get; set; }
 		[JsonPropertyName("usrid")] public string UserId { get; set; }
 		[JsonPropertyName("sub")] public string UserName { get; set; }
+		[JsonPropertyName("sig")] public string Signature { get; set; }
 		[JsonPropertyName("exp")] public long ExpiresInMs { get; set; }
 	}
 }
