@@ -51,14 +51,12 @@ export class SearchService {
   public setYearToMin(): void {
     this.setYear(this.minYear());
     this.areaDataSource.next(this.availableAreas[this.selectedYear()] ?? [])
-    this.selectedArea.set(null)
     this.loadPictures()
   }
 
   public setYearToMax(): void {
     this.setYear(this.maxYear())
     this.areaDataSource.next(this.availableAreas[this.selectedYear()] ?? [])
-    this.selectedArea.set(null)
     this.loadPictures()
   }
 
@@ -96,6 +94,7 @@ export class SearchService {
 
   private setYear(year: number): void {
     this.selectedYear.set(year);
+    this.selectedArea.set(null)
     localStorage.setItem('year', String(this.selectedYear()))
   }
 
