@@ -1,5 +1,5 @@
 import {ActivatedRoute} from '@angular/router';
-import {Component, inject} from '@angular/core';
+import {Component, inject, signal, WritableSignal} from '@angular/core';
 import {Config} from '../../app/config';
 import {PictureDetails} from '../../components/picture-details/picture-details';
 
@@ -14,9 +14,11 @@ import {PictureDetails} from '../../components/picture-details/picture-details';
 export class PhotoPage {
   private activatedRoute = inject(ActivatedRoute);
   protected readonly Config = Config;
-  public pictureId: number;
+  public pictureId: WritableSignal<number> = signal(0);
+  public extension: WritableSignal<string> = signal("");
 
   constructor() {
-    this.pictureId = this.activatedRoute.snapshot.params['id'];
+    this.pictureId.set(this.activatedRoute.snapshot.params['id']);
+    this.extension.set(this.activatedRoute.snapshot.queryParams['ext']);
   }
 }

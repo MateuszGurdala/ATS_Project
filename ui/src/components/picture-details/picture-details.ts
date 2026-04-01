@@ -51,7 +51,7 @@ export class PictureDetails {
 
   public readonly detailsForm: FormGroup = new FormGroup({
     'title': new FormControl('', [Validators.required]),
-    'year': new FormControl(null, [Validators.required, Validators.min(1980), Validators.max(new Date().getFullYear())]),
+    'year': new FormControl(null, [Validators.required, Validators.min(1970), Validators.max(new Date().getFullYear())]),
     'area': new FormControl('', [Validators.required]),
     'parentArea': new FormControl('', [Validators.required]),
     'description': new FormControl('', []),

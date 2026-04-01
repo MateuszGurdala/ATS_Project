@@ -1,5 +1,5 @@
 @for (picture of searchService.pictureDataSource(); track picture.id) {
-  <a href="/picture/{{picture.id}}">
+  <a href="/picture/{{picture.id}}?ext={{picture.extension}}">
     <img
       src="{{Config.IMAGE.URL}}{{picture.id}}.{{picture.extension}}?{{Config.IMAGE.TOKEN}}"
       alt="{{picture.id}}"
