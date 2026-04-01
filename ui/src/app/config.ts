@@ -1,6 +1,6 @@
 export class Config {
   public static API = {
-    ENDPOINT: "https://localhost:7057",
+    ENDPOINT: "http://localhost:7057",
     PREFIX: "/api",
     PATHS: {
       GET: {
