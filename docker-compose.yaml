@@ -11,13 +11,6 @@ services:
       - "10001:10001"
       - "10002:10002"
     command: azurite --skipApiVersionCheck --blobHost 0.0.0.0 --blobPort 10000
-  azurite-seed:
-    image: mcr.microsoft.com/azure-cli:latest
-    volumes:
-      - ./db:/var/atsdb
-    depends_on:
-      - azurite
-    entrypoint: /bin/sh /var/atsdb/azstorage.sh
   mssqldb:
     image: mcr.microsoft.com/mssql/server:2025-latest
     container_name: "mssqldb"
@@ -57,3 +50,17 @@ services:
     restart: always
     ports:
       - "100:80"
+  azurite-seed:
+    image: mcr.microsoft.com/azure-cli:latest
+    volumes:
+      - ./db:/var/atsdb
+    depends_on:
+      - azurite
+    entrypoint: /bin/sh /var/atsdb/azstorage.sh
+  mssqldb-seed:
+    image: mcr.microsoft.com/mssql-tools:latest
+    volumes:
+      - ./db:/var/atsdb
+    depends_on:
+      - mssqldb
+    entrypoint: /bin/bash /var/atsdb/seed.sh

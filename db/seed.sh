@@ -1,5 +1,6 @@
 #!/bin/bash
+sleep 10
 
-docker exec -i mssqldb /opt/mssql-tools18/bin/sqlcmd -U sa -P testPASS123 -C -i /var/atsdb/database.sql
-docker exec -i mssqldb /opt/mssql-tools18/bin/sqlcmd -U sa -P testPASS123 -C -d CommunityApp -i /var/atsdb/tables.sql
-docker exec -i mssqldb /opt/mssql-tools18/bin/sqlcmd -U sa -P testPASS123 -C -d CommunityApp -i /var/atsdb/seed.sql
+/opt/mssql-tools/bin/sqlcmd -U sa -P testPASS123 -C -i /var/atsdb/database.sql -S mssqldb
+/opt/mssql-tools/bin/sqlcmd -U sa -P testPASS123 -C -d CommunityApp -i /var/atsdb/tables.sql -S mssqldb
+/opt/mssql-tools/bin/sqlcmd -U sa -P testPASS123 -C -d CommunityApp -i /var/atsdb/seed.sql -S mssqldb
