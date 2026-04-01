@@ -10,6 +10,14 @@ services:
       - "10000:10000"
       - "10001:10001"
       - "10002:10002"
+    command: azurite --skipApiVersionCheck --blobHost 0.0.0.0 --blobPort 10000
+  azurite-seed:
+    image: mcr.microsoft.com/azure-cli:latest
+    volumes:
+      - ./db:/var/atsdb
+    depends_on:
+      - azurite
+    entrypoint: /bin/sh /var/atsdb/azstorage.sh
   mssqldb:
     image: mcr.microsoft.com/mssql/server:2025-latest
     container_name: "mssqldb"
@@ -18,6 +26,8 @@ services:
       - "MSSQL_SA_PASSWORD=testPASS123"
     hostname: mssqldb
     restart: always
+    volumes:
+      - ./db:/var/atsdb
     ports:
       - "1433:1433"
   api:
@@ -34,7 +44,16 @@ services:
       - "AZURESTORAGE__ACCOUNT_NAME=devstoreaccount1"
       - "AZURESTORAGE__ACCOUNT_KEY=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==1"
       - "JWT__SECRET=ATS"
-      - "ALLOWEDORIGINS=http://localhost:4200"
+      - "ALLOWEDORIGINS=http://localhost:100"
     restart: always
     ports:
       - "7057:8080"
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    container_name: "atsui"
+    hostname: atsui
+    restart: always
+    ports:
+      - "100:80"
