@@ -20,3 +20,21 @@ services:
     restart: always
     ports:
       - "1433:1433"
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: "atsapi"
+    hostname: ataspi
+    environment:
+      - "DATABASE__DATASOURCE=mssqldb"
+      - "DATABASE__PASSWORD=testPASS123"
+      - "DATABASE__USERNAME=sa"
+      - "AZURESTORATE__ENDPOINT=http://127.0.0.1:10000"
+      - "AZURESTORAGE__ACCOUNT_NAME=devstoreaccount1"
+      - "AZURESTORAGE__ACCOUNT_KEY=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==1"
+      - "JWT__SECRET=ATS"
+      - "ALLOWEDORIGINS=http://localhost:4200"
+    restart: always
+    ports:
+      - "7057:8080"

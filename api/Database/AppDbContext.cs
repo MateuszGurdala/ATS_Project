@@ -14,7 +14,15 @@ public class AppDbContext(IConfiguration configuration) : DbContext, IAppDbConte
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
-		optionsBuilder.UseSqlServer(configuration.GetValue<string>("Database:ConnectionString"));
+		var connStr = string.Join(";", [
+			$"Data Source={configuration.GetValue<string>("Database:DataSource")}",
+			$"Password={configuration.GetValue<string>("Database:Password")}",
+			$"User ID={configuration.GetValue<string>("Database:Username")}",
+			$"Database={configuration.GetValue<string>("Database:Database")}",
+			configuration.GetValue<string>("Database:ConnectionString")
+		]);
+
+		optionsBuilder.UseSqlServer(connStr);
 	}
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
