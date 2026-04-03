@@ -29,7 +29,7 @@
   </mat-form-field>
 </form>
 <div></div>
-<a href="/picture/{{adminPictureDetails()!.id}}">
+<a href="/picture/{{adminPictureDetails()!.id}}?ext={{adminPictureDetails()!.extension}}">
   <img
     src="{{Config.IMAGE.URL}}{{adminPictureDetails()!.id}}.{{adminPictureDetails()!.extension}}?{{Config.IMAGE.TOKEN}}"
     alt="{{adminPictureDetails()!.id}}.{{adminPictureDetails()!.extension}}"

@@ -33,9 +33,9 @@ services:
       - "DATABASE__DATASOURCE=mssqldb"
       - "DATABASE__PASSWORD=testPASS123"
       - "DATABASE__USERNAME=sa"
-      - "AZURESTORATE__ENDPOINT=http://127.0.0.1:10000"
-      - "AZURESTORAGE__ACCOUNT_NAME=devstoreaccount1"
-      - "AZURESTORAGE__ACCOUNT_KEY=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==1"
+      - "AZURESTORAGE__ENDPOINT=http://azurite:10000"
+      - "AZURESTORAGE__ACCOUNT__NAME=devstoreaccount1"
+      - "AZURESTORAGE__ACCOUNT__KEY=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
       - "JWT__SECRET=ATS"
       - "ALLOWEDORIGINS=http://localhost:100"
     restart: always
