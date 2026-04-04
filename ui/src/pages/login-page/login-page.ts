@@ -6,6 +6,7 @@ import {MatIcon} from '@angular/material/icon';
 import {MatInput} from '@angular/material/input';
 import {ToastrService} from 'ngx-toastr';
 import {UserAccountService} from '../../services/user-account-service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login-page',
@@ -47,9 +48,16 @@ export class LoginPage {
       next: (token) => {
         this.userAccountService.login(token);
       },
-      error: () => {
-        this.loginFrom.controls['username'].setErrors({invalid: true});
-        this.loginFrom.controls['password'].setErrors({invalid: true});
+      error: (response: HttpErrorResponse) => {
+        switch (response.status) {
+          case 401:
+            this.toastrService.error("Skontaktuj się z administratorem", "Konto jest nieaktywne")
+            break
+          default:
+            this.loginFrom.controls['username'].setErrors({invalid: true});
+            this.loginFrom.controls['password'].setErrors({invalid: true});
+        }
+
       }
     })
   }

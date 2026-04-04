@@ -31,6 +31,7 @@ public class AuthService(IAppDbContext appDbContext, IConfiguration configuratio
 			.Include(ua => ua.Role)
 			.Where(ua => ua.RoleID == int.Parse(payloadJson.RoleId))
 			.Where(ua => ua.Username == payloadJson.UserName)
+			.Where(ua => ua.IsActive)
 			.FirstOrDefault(ua => ua.Id == int.Parse(payloadJson.UserId));
 
 		if (user == null)

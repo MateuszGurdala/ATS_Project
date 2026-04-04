@@ -33,11 +33,8 @@ builder.Services.AddSingleton<IAzureStorageService, AzureStorageService>();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-	app.UseSwagger();
-	app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.AddGetEndpoints();
 app.AddPostEndpoints();

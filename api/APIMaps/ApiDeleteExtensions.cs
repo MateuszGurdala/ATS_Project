@@ -28,11 +28,11 @@ public static class ApiDeleteExtensions
 				if (picture == null)
 					return Results.BadRequest("Invalid picture Id.");
 
-				var userCreated = await appDbContext.UserAccount.FirstOrDefaultAsync(ua => ua.Id == picture.CreatedById);
+				var userCreated = await appDbContext.UserAccount.Include(ua => ua.Role).FirstOrDefaultAsync(ua => ua.Id == picture.CreatedById);
 				if (userCreated == null)
 					return Results.Problem();
 
-				userCreated.IsActive = authService.UserAccount.Role.Name == RoleNames.Admin;
+				userCreated.IsActive = userCreated.Role.Name == RoleNames.Admin;
 				picture.IsActive = false;
 				picture.UpdatedById = authService.UserAccount.Id;
 				picture.UpdatedOn = DateTime.Now;
